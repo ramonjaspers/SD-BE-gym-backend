@@ -1,44 +1,55 @@
 package gym.gymbackend.dto;
 
+import gym.gymbackend.enums.Sex;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.validation.constraints.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 public class PersonDto {
-    private Long id;
-    @NotEmpty
+    @NotBlank
+    @Size(max = 128)
+    private final Long id;
+
+    @NotBlank
     @Size(max = 128)
     private final String name;
 
-    @NotEmpty
+    @NotBlank
     @Size(max = 128)
     private final String username;
 
-    @NotEmpty
+    @NotBlank
     @Size(max = 128)
     private final String address;
 
+    @NotBlank
     @Past(message = "Date must be in the past!")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private final Date dateOfBirth;
 
-    @Max(value = 10000, message = "Salary too high, check the salary value or contact the administrator")
-    private final int salary;
+    @Max(value = 5000, message = "Credit too high, check the credit value or contact the administrator")
+    private final Float credit;
 
     @Past(message = "Date must be in the past!")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private final Date dateOfEmployment;
 
-    @Past(message = "Date must be in the past!")
-    // @JsonFormat(pattern="dd-MM-yyyy")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private final Date dateOfBirth;
+    @NotBlank
+    private final Sex sex;
 
-    private final LocalDateTime timeStamp;
+
+    @NotBlank
+    @Past(message = "Date must be in the past!")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private final String bankNumber;
+
+    @NotBlank
+    private final Long roleId;
+
+    private final Long subscriptionId;
+
+    private final String picture;
 }

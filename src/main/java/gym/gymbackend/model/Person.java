@@ -19,6 +19,7 @@ public class Person {
     private String username;
     private String password;
     private String address;
+    private String bankNumber;
     private  Date dateOfBirth;
     private Double credit;
     private  Sex sex;
@@ -176,5 +177,13 @@ public class Person {
 
     public void setWorkouts(List<Workout> workouts) {
         this.workouts = workouts;
+    }
+
+    public String getBankNumber() {
+        return bankNumber;
+    }
+
+    public void setBankNumber(String bankNumber) {
+        this.bankNumber = bankNumber;
     }
 }

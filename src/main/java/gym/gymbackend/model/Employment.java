@@ -16,9 +16,9 @@ public class Employment {
 
     private Date dateOfEmployment;
     private Date endDateEmployment;
-    private String firstName;
-    private String lastName;
     private int salary;
+    private String function;
+    private String workWeekDuration;
 
     // An employment can only belong to a single person
     @OneToOne(mappedBy = "person")
@@ -49,28 +49,28 @@ public class Employment {
         this.endDateEmployment = endDateEmployment;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public int getSalary() {
         return salary;
     }
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public String getFunction() {
+        return function;
+    }
+
+    public void setFunction(String function) {
+        this.function = function;
+    }
+
+    public String getWorkWeekDuration() {
+        return workWeekDuration;
+    }
+
+    public void setWorkWeekDuration(String workWeekDuration) {
+        this.workWeekDuration = workWeekDuration;
     }
 
     public Person getPerson() {

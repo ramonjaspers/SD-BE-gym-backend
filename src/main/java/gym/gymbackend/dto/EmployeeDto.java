@@ -9,6 +9,10 @@ import java.util.Date;
 
 @Data
 public class EmployeeDto {
+    @NotBlank
+    @Size(max = 128)
+    private final Long id;
+
     @NotEmpty
     @Size(max = 128)
     private final String firstName;
