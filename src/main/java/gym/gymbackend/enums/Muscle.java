@@ -1,0 +1,16 @@
+package gym.gymbackend.enums;
+
+public enum Muscle {
+    ABDOMINALS,
+    ANTERIOR_DELTOIDS,
+    BICEPS_BRACHIALIS,
+    BICEPS_FEMORIS,
+    LATISSIMUS_DORSI,
+    TRICEPS_BRACHIALIS,
+    PECTORIALS,
+    QUADRICEPS,
+    TRAPEZIUS,
+    GLUTEUS,
+    GASTRONECEMIUS,
+    SERRATUS
+}
