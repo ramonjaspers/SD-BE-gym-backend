@@ -4,11 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import gym.gymbackend.enums.Muscle;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "exercise_muscle")
+@Table(name = "muscles")
 public class ExerciseMuscle {
     @Id
     @GeneratedValue
@@ -18,7 +17,7 @@ public class ExerciseMuscle {
 
     // Multiple muscles can belong to a single exercise
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "exercise_id")
     @JsonIgnore
     Exercise exercise;
 

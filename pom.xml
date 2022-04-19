@@ -56,6 +56,12 @@
             <version>5.6.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.wnameless.spring</groupId>
+            <artifactId>spring-security-jjwt</artifactId>
+            <version>0.2.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

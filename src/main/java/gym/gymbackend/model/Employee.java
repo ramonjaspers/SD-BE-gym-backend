@@ -1,17 +1,13 @@
 package gym.gymbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import java.util.Date;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
-@Table(name = "employment")
-public class Employment {
+@Table(name = "employees")
+public class Employee {
     @Id
+    @GeneratedValue
     private Long id;
 
     private Date dateOfEmployment;
@@ -20,9 +16,10 @@ public class Employment {
     private String function;
     private String workWeekDuration;
 
-    // An employment can only belong to a single person
-    @OneToOne(mappedBy = "person")
-    @JsonIgnore
+    // An employee can only belong to a single person
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "username")
     Person person;
 
     public Long getId() {

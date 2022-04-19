@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "exercise")
+@Table(name = "exercises")
 public class Exercise {
     @Id
     @GeneratedValue
@@ -15,20 +15,14 @@ public class Exercise {
 
     private String name;
 
-    // An exercise list has multiple exercises
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    @JsonIgnore
-    ListOfExercises exerciseList;
-
     // Exercises have a single facility
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "facility_id", nullable = false)
     @JsonIgnore
     Facility facility;
 
     //An exercise can have multiple muscles
-    @OneToMany(mappedBy = "exerciseMuscle")
+    @OneToMany(mappedBy = "exercise")
     @JsonIgnore
     List<ExerciseMuscle> muscles = new ArrayList<>();
 
@@ -46,14 +40,6 @@ public class Exercise {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ListOfExercises getExerciseList() {
-        return exerciseList;
-    }
-
-    public void setExerciseList(ListOfExercises exerciseList) {
-        this.exerciseList = exerciseList;
     }
 
     public Facility getFacility() {

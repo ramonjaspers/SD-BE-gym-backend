@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "subscription")
+@Table(name = "subscriptions")
 public class Subscription {
     @Id
     @GeneratedValue
@@ -17,12 +17,12 @@ public class Subscription {
     private Double Price;
 
     // A subscription has multiple persons
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "subscription")
     @JsonIgnore
     List<Person> persons = new ArrayList<>();
 
     // One subscription has many facilities to access
-    @OneToMany(mappedBy = "facility")
+    @OneToMany(mappedBy = "subscription")
     @JsonIgnore
     List<Facility> facilities = new ArrayList<>();
 

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class FacilityId {
+public class FacilityDto {
 
     @NotBlank
     @Size(max = 128)

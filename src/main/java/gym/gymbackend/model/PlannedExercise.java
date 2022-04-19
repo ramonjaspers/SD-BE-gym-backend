@@ -7,23 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "exercise_list")
-public class ListOfExercises {
+@Table(name = "planned_exercises")
+public class PlannedExercise {
     @Id
     @GeneratedValue
     private Long id;
 
     private String name;
 
-    // One workout has one list of exercises
-    @OneToOne(mappedBy = "workout")
-    @JsonIgnore
+    // One or many planned exercises have one workout
+    @ManyToOne
+    @JoinColumn(name="workout_id", nullable=false)
     Workout workout;
 
-    //One list of exercises contains one or many exercises
-    @OneToMany(mappedBy = "exercise")
-    @JsonIgnore
-    List<Exercise> exercises;
+    // One or many planned exercise contains one exercise
+    @ManyToOne
+    @JoinColumn(name="exercise_id", nullable=false)
+    Exercise exercise;
 
     public Long getId() {
         return id;
@@ -49,11 +49,11 @@ public class ListOfExercises {
         this.workout = workout;
     }
 
-    public List<Exercise> getExercises() {
-        return exercises;
+    public Exercise getExercise() {
+        return exercise;
     }
 
-    public void setExercises(List<Exercise> exercises) {
-        this.exercises = exercises;
+    public void setExercise(Exercise exercises) {
+        this.exercise = exercises;
     }
 }
