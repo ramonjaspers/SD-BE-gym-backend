@@ -25,7 +25,7 @@ public class EmployeeDto {
     private final String email;
 
     @Max(value = 10000, message = "Salary too high, check the salary value or contact the administrator")
-    private final int salary;
+    private final Integer salary;
 
     @Past(message = "Date must be in the past!")
     @DateTimeFormat(pattern = "dd-MM-yyyy")

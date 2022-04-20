@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "exercises")
 public class Exercise {
     @Id
     @GeneratedValue

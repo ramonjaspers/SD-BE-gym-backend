@@ -2,24 +2,25 @@ package gym.gymbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "subscriptions")
 public class Subscription {
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
     private Double Price;
 
     // A subscription has multiple persons
     @OneToMany(mappedBy = "subscription")
     @JsonIgnore
-    List<Person> persons = new ArrayList<>();
+    List<Person> persons;
 
     // One subscription has many facilities to access
     @OneToMany(mappedBy = "subscription")

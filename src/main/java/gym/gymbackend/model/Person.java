@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
-@Table(name = "persons")
 public class Person {
     @Id
     @Column(nullable = false, unique = true)
@@ -16,34 +15,23 @@ public class Person {
     private String password;
     @Column(nullable = false, length = 255)
     private String name;
-
-    @Column
     private String address;
-    @Column
     private String bankNumber;
-    @Column
     private Date dateOfBirth;
-    @Column
     private Float credit;
-    @Column
     private Sex sex;
-    @Column
     private String picture;
-    @Column
     private String email;
-    @Column
     private LocalDateTime timeStamp;
-    @Column
     private String apiKey;
 
     // A Person has none or one employee
     @OneToOne(mappedBy = "person")
-    @PrimaryKeyJoinColumn
     private Employee employee;
 
     // Multiple persons have a subscription
     @ManyToOne
-    @JoinColumn(name = "subscription_id", nullable = false)
+    @JoinColumn(name = "subscription_id")
     private Subscription subscription;
 
     // Multiple persons have a subscription
@@ -128,14 +116,6 @@ public class Person {
         this.timeStamp = timeStamp;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
     public Subscription getSubscription() {
         return subscription;
     }
@@ -182,5 +162,13 @@ public class Person {
     }
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

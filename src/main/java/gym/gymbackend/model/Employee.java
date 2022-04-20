@@ -1,25 +1,24 @@
 package gym.gymbackend.model;
 
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import java.util.Date;
 
 @Entity
-@Table(name = "employees")
 public class Employee {
     @Id
     @GeneratedValue
     private Long id;
-
     private Date dateOfEmployment;
     private Date endDateEmployment;
-    private int salary;
-    private String function;
-    private String workWeekDuration;
+    private Integer salary;
+    private String func;
+    private Integer workWeekDuration;
 
     // An employee can only belong to a single person
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "username")
     Person person;
 
     public Long getId() {
@@ -46,35 +45,35 @@ public class Employee {
         this.endDateEmployment = endDateEmployment;
     }
 
-    public int getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(Integer salary) {
         this.salary = salary;
     }
 
-    public String getFunction() {
-        return function;
+    public String getFunc() {
+        return func;
     }
 
-    public void setFunction(String function) {
-        this.function = function;
+    public void setFunc(String func) {
+        this.func = func;
     }
 
-    public String getWorkWeekDuration() {
+    public Integer getWorkWeekDuration() {
         return workWeekDuration;
     }
 
-    public void setWorkWeekDuration(String workWeekDuration) {
+    public void setWorkWeekDuration(Integer workWeekDuration) {
         this.workWeekDuration = workWeekDuration;
     }
 
-    public Person getPerson() {
-        return person;
-    }
+    // public Person getPerson() {
+    //     return person;
+    // }
 
-    public void setPerson(Person person) {
-        this.person = person;
-    }
+    // public void setPerson(Person person) {
+    //     this.person = person;
+    // }
 }

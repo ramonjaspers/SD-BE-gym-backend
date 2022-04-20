@@ -22,6 +22,7 @@ public class PersonDto {
     @Size(max = 128)
     public String username;
 
+    @NotBlank
     @Size(max = 128)
     public String password;
 

@@ -3,11 +3,8 @@ package gym.gymbackend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "planned_exercises")
 public class PlannedExercise {
     @Id
     @GeneratedValue
@@ -18,6 +15,7 @@ public class PlannedExercise {
     // One or many planned exercises have one workout
     @ManyToOne
     @JoinColumn(name="workout_id", nullable=false)
+    @JsonIgnore
     Workout workout;
 
     // One or many planned exercise contains one exercise
