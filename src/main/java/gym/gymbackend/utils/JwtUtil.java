@@ -1,4 +1,5 @@
 package gym.gymbackend.utils;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,7 +13,6 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-
     private final static String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {
@@ -55,5 +55,4 @@ public class JwtUtil {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
-
 }

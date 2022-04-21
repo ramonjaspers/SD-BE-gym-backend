@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
+/**
+ * To make use of the UserDetailsService and their authority logic we need to extend this service
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gym.gymbackend.enums.Sex;
 import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Subscription;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -16,52 +15,28 @@ import java.util.Set;
 public class PersonDto {
     @NotBlank
     @Size(max = 128)
-    public String name;
-
-    @NotBlank
-    @Size(max = 128)
     public String username;
-
     @NotBlank
     @Size(max = 128)
     public String password;
-
     @NotBlank
+    @Size(max = 128)
+    public String name;
     @Size(max = 128)
     public String address;
-
-    @NotBlank
     public String bankNumber;
-
-    @NotBlank
     @Past(message = "Date must be in the past!")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     public Date dateOfBirth;
-
-    @NotBlank
-    @Max(value = 5000, message = "Credit too high, check the credit value or contact the administrator")
-    public Float credit;
-
+    @Max(value = 10000, message = "Credit too high, check the credit value or contact the administrator")
+    public Double credit;
     @NotBlank
     public Sex sex;
-
     @Size(max = 128)
     public String apiKey;
-
     @JsonSerialize
     public Set<Authority> authorities;
-
     public Subscription subscription;
-
     public String picture;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getUsername() {
         return username;
@@ -77,6 +52,14 @@ public class PersonDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -103,11 +86,11 @@ public class PersonDto {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Float getCredit() {
+    public Double getCredit() {
         return credit;
     }
 
-    public void setCredit(Float credit) {
+    public void setCredit(Double credit) {
         this.credit = credit;
     }
 

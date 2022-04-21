@@ -16,7 +16,7 @@ public class Person {
     private String name;
     private String address;
     private Date dateOfBirth;
-    private Float credit;
+    private Double credit;
     private Sex sex;
     private String picture;
     private String email;
@@ -85,11 +85,11 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Float getCredit() {
+    public Double getCredit() {
         return credit;
     }
 
-    public void setCredit(Float credit) {
+    public void setCredit(Double credit) {
         this.credit = credit;
     }
 
