@@ -1,9 +1,8 @@
 package gym.gymbackend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,11 +13,13 @@ public class Employee {
     private Date dateOfEmployment;
     private Date endDateEmployment;
     private Integer salary;
+    //Employee function
     private String func;
     private Integer workWeekDuration;
 
     // An employee can only belong to a single person
-    @OneToOne
+    @OneToOne(mappedBy = "employee")
+    @JsonIgnore
     Person person;
 
     public Long getId() {
@@ -68,12 +69,4 @@ public class Employee {
     public void setWorkWeekDuration(Integer workWeekDuration) {
         this.workWeekDuration = workWeekDuration;
     }
-
-    // public Person getPerson() {
-    //     return person;
-    // }
-
-    // public void setPerson(Person person) {
-    //     this.person = person;
-    // }
 }

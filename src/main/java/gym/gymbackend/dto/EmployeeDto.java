@@ -35,6 +35,4 @@ public class EmployeeDto {
     // @JsonFormat(pattern="dd-MM-yyyy")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private final Date dateOfBirth;
-
-    private final LocalDateTime timeStamp;
 }

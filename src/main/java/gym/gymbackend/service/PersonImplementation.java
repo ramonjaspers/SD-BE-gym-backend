@@ -99,7 +99,7 @@ public class PersonImplementation implements PersonService {
         Person.setName(personDto.getName());
         Person.setUsername(personDto.getUsername());
         Person.setPassword(personDto.getPassword());
-        Person.setApikey(personDto.getApiKey());
+        Person.setApiKey(personDto.getApiKey());
         Person.setAddress(personDto.getAddress());
         Person.setDateOfBirth(personDto.getDateOfBirth());
         Person.setCredit(personDto.getCredit());
@@ -128,7 +128,7 @@ public class PersonImplementation implements PersonService {
         dto.dateOfBirth = person.getDateOfBirth();
         dto.credit = person.getCredit();
         dto.sex = person.getSex();
-        dto.apiKey = person.getApikey();
+        dto.apiKey = person.getApiKey();
         dto.authorities = person.getAuthorities();
         dto.subscription = person.getSubscription();
         dto.picture = person.getPicture();

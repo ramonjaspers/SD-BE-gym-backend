@@ -3,7 +3,6 @@ package gym.gymbackend.model;
 import gym.gymbackend.enums.Sex;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -16,17 +15,17 @@ public class Person {
     @Column(nullable = false, length = 255)
     private String name;
     private String address;
-    private String bankNumber;
     private Date dateOfBirth;
     private Float credit;
     private Sex sex;
     private String picture;
     private String email;
-    private LocalDateTime timeStamp;
+    private String bankNumber;
     private String apiKey;
 
     // A Person has none or one employee
-    @OneToOne(mappedBy = "person")
+    @OneToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     // Multiple persons have a subscription
@@ -54,10 +53,20 @@ public class Person {
         this.username = username;
     }
 
-    public String getPassword() {return password;}
+    public String getPassword() {
+        return password;
+    }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -108,12 +117,28 @@ public class Person {
         this.email = email;
     }
 
-    public LocalDateTime getTimeStamp() {
-        return timeStamp;
+    public String getBankNumber() {
+        return bankNumber;
     }
 
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setBankNumber(String bankNumber) {
+        this.bankNumber = bankNumber;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public Subscription getSubscription() {
@@ -132,43 +157,11 @@ public class Person {
         this.workouts = workouts;
     }
 
-    public String getBankNumber() {
-        return bankNumber;
-    }
-
-    public void setBankNumber(String bankNumber) {
-        this.bankNumber = bankNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getApikey() {
-        return apiKey;
-    }
-
-    public void setApikey(String apiKey) {
-        this.apiKey = apiKey;
-    }
-
     public Set<Authority> getAuthorities() { return authorities; }
     public void addAuthority(Authority authority) {
         this.authorities.add(authority);
     }
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 }
