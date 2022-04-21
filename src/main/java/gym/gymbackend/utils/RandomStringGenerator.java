@@ -6,6 +6,11 @@ import java.util.Random;
 
 public class RandomStringGenerator {
 
+    /**
+     * Random string generator thanks to https://www.baeldung.com/java-random-string#java8-alphanumeric
+     * @param length
+     * @return
+     */
     @NotNull
     public static String generateAlphaNumeric(int length) {
         int leftLimit = 48; // numeral '0'
