@@ -1,12 +1,15 @@
 package gym.gymbackend.service;
 
 import gym.gymbackend.dto.PersonDto;
+import gym.gymbackend.exceptions.BadRequestException;
 import gym.gymbackend.exceptions.RecordNotFoundException;
 import gym.gymbackend.exceptions.UsernameNotFoundException;
 import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Person;
 import gym.gymbackend.repository.PersonRepository;
 import gym.gymbackend.utils.RandomStringGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +20,9 @@ import java.util.Set;
 public class PersonImplementation implements PersonService {
 
     private final PersonRepository repos;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public PersonImplementation(PersonRepository repos) {
         this.repos = repos;
@@ -42,10 +48,15 @@ public class PersonImplementation implements PersonService {
 
 
     public String createPerson(PersonDto personDto) {
-        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-        personDto.setApiKey(randomString);
-        Person newPerson = this.repos.save(dtoToPerson(personDto));
-        return newPerson.getUsername();
+        try {
+            String randomString = RandomStringGenerator.generateAlphaNumeric(20);
+            personDto.setApiKey(randomString);
+            personDto.setPassword(this.passwordEncoder.encode(personDto.getPassword()));
+            Person newPerson = this.repos.save(dtoToPerson(personDto));
+            return newPerson.getUsername();
+        } catch (Exception ex) {
+            throw new BadRequestException("Not able to create user.");
+        }
     }
 
     public void deletePerson(String username) {

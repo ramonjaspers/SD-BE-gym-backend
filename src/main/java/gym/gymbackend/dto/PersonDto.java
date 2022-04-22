@@ -5,14 +5,12 @@ import gym.gymbackend.enums.Sex;
 import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Subscription;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Set;
 
 public class PersonDto {
+
     @NotBlank
     @Size(max = 128)
     public String username;
@@ -29,7 +27,7 @@ public class PersonDto {
     public Date dateOfBirth;
     @Max(value = 10000, message = "Credit too high, check the credit value or contact the administrator")
     public Double credit;
-    @NotBlank
+    @NotNull
     public Sex sex;
     @Size(max = 128)
     public String apiKey;

@@ -4,12 +4,11 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 public class EmployeeDto {
-    @NotBlank
+    @NotEmpty
     @Size(max = 128)
     private final Long id;
 

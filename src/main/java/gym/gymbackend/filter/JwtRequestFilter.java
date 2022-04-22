@@ -3,6 +3,7 @@ package gym.gymbackend.filter;
 import gym.gymbackend.service.CustomUserDetailsService;
 import gym.gymbackend.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// Big thanks to Johan van Oosten
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -27,10 +27,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
+
         final String authorizationHeader = request.getHeader("Authorization");
-        String username = null;
-        String jwt = null;
+        String username;
+        String jwt;
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
@@ -48,6 +51,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
             }
         }
+
         filterChain.doFilter(request, response);
     }
 }
