@@ -2,15 +2,15 @@ package gym.gymbackend.service;
 
 import gym.gymbackend.dto.PersonDto;
 import gym.gymbackend.model.Person;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PersonService {
 
-    public List<PersonDto> getPersons();
-    public PersonDto getPerson(String username);
+    public List<Person> getPersons();
+    public Optional<Person> getPerson(String username);
     public String createPerson(PersonDto personDto);
-    public void deletePerson(String username);
-    public void updatePerson(String username, PersonDto personDto);
+    public Boolean deletePerson(String username);
+    public Boolean updatePerson(String username, PersonDto personDto);
 }

@@ -1,6 +1,7 @@
 package gym.gymbackend.controller;
 
 import gym.gymbackend.dto.PersonDto;
+import gym.gymbackend.model.Person;
 import gym.gymbackend.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/persons")
@@ -23,14 +25,13 @@ public class PersonController {
 
     @GetMapping(value = "")
     public ResponseEntity<Object> getPersons() {
-        List<PersonDto> persons = service.getPersons();
-        return new ResponseEntity<>(persons, HttpStatus.OK);
+        return ResponseEntity.ok().body(service.getPersons());
     }
 
     @GetMapping(value = "/{username}")
     public ResponseEntity<Object> getPerson(@PathVariable String username) {
         try{
-            PersonDto person = service.getPerson(username);
+            Optional<Person> person = service.getPerson(username);
             return new ResponseEntity<>(person, HttpStatus.OK);
         } catch (Error e) {
             return new ResponseEntity<>("No person found", HttpStatus.NOT_FOUND);

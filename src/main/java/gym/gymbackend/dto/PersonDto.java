@@ -22,6 +22,7 @@ public class PersonDto {
     public String name;
     @Size(max = 128)
     public String address;
+    public String email;
     public String bankNumber;
     @Past(message = "Date must be in the past!")
     public Date dateOfBirth;
@@ -32,7 +33,7 @@ public class PersonDto {
     @Size(max = 128)
     public String apiKey;
     @JsonSerialize
-    public Set<Authority> authorities;
+    public Set<String> authorities;
     public Subscription subscription;
     public String picture;
 
@@ -66,6 +67,14 @@ public class PersonDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getBankNumber() {
@@ -108,11 +117,11 @@ public class PersonDto {
         this.apiKey = apiKey;
     }
 
-    public Set<Authority> getAuthorities() {
+    public Set<String> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
+    public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
     }
 
