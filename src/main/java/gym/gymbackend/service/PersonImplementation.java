@@ -78,21 +78,26 @@ public class PersonImplementation implements PersonService {
     }
 
     @Override
-    public Boolean updatePerson(String username, PersonDto personDto) {
+    public Boolean updatePerson(String username, Person newPerson) {
         if (!personExists(username)) {
-            throw new PersonNotFoundException();
+            throw new PersonNotFoundException(username);
         }
-        Person person = this.repos.findById(personDto.getUsername()).get();
-        person.setPassword(personDto.getPassword());
-        this.repos.save(person);
+        Person person = repos.findById(username).get();
+        person.setPassword(passwordEncoder.encode(newPerson.getPassword()));
+        person.setPicture(newPerson.getPicture());
+        person.setAddress(newPerson.getAddress());
+        person.setBankNumber(newPerson.getBankNumber());
+        person.setEmail(newPerson.getEmail());
+        person.setEnabled(newPerson.isEnabled());
+        repos.save(person);
         return true;
     }
 
     public Set<Authority> getAuthorities(String username) {
-        if (!repos.existsById(username)) {
+        if (!personExists(username)) {
             throw new PersonNotFoundException(username);
         }
-        Person person = this.repos.findById(username).get();
+        Person person = repos.findById(username).get();
         return person.getAuthorities();
     }
 
@@ -111,6 +116,17 @@ public class PersonImplementation implements PersonService {
         Authority authorityToRemove = person.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         person.removeAuthority(authorityToRemove);
         this.repos.save(person);
+    }
+
+    @Override
+    public Boolean deleteImage(String username) {
+        if (!personExists(username)) {
+            throw new PersonNotFoundException(username);
+        }
+        Person person = repos.findById(username).get();
+        person.setPicture(null);
+        this.repos.save(person);
+        return true;
     }
 
     /**

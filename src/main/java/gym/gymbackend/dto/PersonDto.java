@@ -2,7 +2,6 @@ package gym.gymbackend.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gym.gymbackend.enums.Sex;
-import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Subscription;
 
 import javax.validation.constraints.*;
@@ -35,7 +34,7 @@ public class PersonDto {
     @JsonSerialize
     public Set<String> authorities;
     public Subscription subscription;
-    public String picture;
+    public byte[] picture;
 
     public String getUsername() {
         return username;
@@ -133,11 +132,11 @@ public class PersonDto {
         this.subscription = subscription;
     }
 
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 }
