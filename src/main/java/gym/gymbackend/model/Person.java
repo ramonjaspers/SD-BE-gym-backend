@@ -18,7 +18,8 @@ public class Person {
     private Date dateOfBirth;
     private Double credit;
     private Sex sex;
-    private String picture;
+    @Lob
+    private byte[] picture;
     private String email;
     private String bankNumber;
     private String apiKey;
@@ -103,11 +104,11 @@ public class Person {
         this.sex = sex;
     }
 
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 

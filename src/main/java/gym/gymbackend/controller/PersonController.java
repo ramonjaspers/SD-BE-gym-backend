@@ -1,16 +1,20 @@
 package gym.gymbackend.controller;
 
 import gym.gymbackend.dto.PersonDto;
+import gym.gymbackend.exceptions.BadRequestException;
 import gym.gymbackend.model.Person;
 import gym.gymbackend.service.PersonService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -19,7 +23,7 @@ public class PersonController {
 
     private final PersonService service;
 
-    public PersonController(PersonService service){
+    public PersonController(PersonService service) {
         this.service = service;
     }
 
@@ -30,7 +34,7 @@ public class PersonController {
 
     @GetMapping(value = "/{username}")
     public ResponseEntity<Object> getPerson(@PathVariable String username) {
-        try{
+        try {
             Optional<Person> person = service.getPerson(username);
             return new ResponseEntity<>(person, HttpStatus.OK);
         } catch (Error e) {
@@ -65,4 +69,40 @@ public class PersonController {
             return new ResponseEntity<>("Person does not exist", HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/{username}/image")
+    public String uploadImage(@PathVariable String username, @RequestBody MultipartFile picture) {
+        Optional<Person> personObj = service.getPerson(username);
+        if (personObj.isEmpty()) {
+            throw new UsernameNotFoundException(username);
+        }
+        try {
+            Person person = personObj.get();
+            person.setPicture(picture.getBytes());
+            service.updatePerson(username, person);
+        } catch (IOException e) {
+            throw new BadRequestException("Error while uploading image");
+        }
+        return "Image uploaded for " + username;
+    }
+
+    @GetMapping(value = "/{username}/image", produces = MediaType.IMAGE_PNG_VALUE)
+    public @ResponseBody
+    byte[] getImage(@PathVariable String username) {
+        Optional<Person> personObj = service.getPerson(username);
+        if (personObj.isEmpty()) {
+            throw new UsernameNotFoundException(username);
+        }
+        Person person = personObj.get();
+        return person.getPicture();
+    }
+
+    @DeleteMapping(value = "/{username}/image")
+    public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username) {
+        if (service.deleteImage(username)) {
+            return new ResponseEntity<>("Image deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Failed", HttpStatus.NOT_FOUND);
+    }
+
 }

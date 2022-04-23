@@ -12,5 +12,6 @@ public interface PersonService {
     public Optional<Person> getPerson(String username);
     public String createPerson(PersonDto personDto);
     public Boolean deletePerson(String username);
-    public Boolean updatePerson(String username, PersonDto personDto);
+    public Boolean updatePerson(String username, Person person);
+    public Boolean deleteImage(String username);
 }
