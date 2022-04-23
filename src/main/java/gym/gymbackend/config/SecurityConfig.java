@@ -17,10 +17,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.sql.DataSource;
 
+import static org.springframework.http.HttpMethod.*;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     private DataSource dataSource;
     private JwtRequestFilter jwtRequestFilter;
 
@@ -33,8 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("SELECT username, password FROM users WHERE username=?")
-                .authoritiesByUsernameQuery("SELECT username, authority FROM authorities AS a WHERE username=?");
+                .usersByUsernameQuery("SELECT username, password, enabled FROM person WHERE username=?")
+                .authoritiesByUsernameQuery("SELECT username, authority FROM authority AS a WHERE username=?");
+    }
+
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -49,28 +57,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.userDetailsServiceBean();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/employee/**").hasAnyAuthority("EMPLOYEE", "ADMIN")
-                .antMatchers("/user/**").hasAnyAuthority("USER", "EMPLOYEE", "ADMIN")
-                .antMatchers("/authenticated").authenticated()
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/employee/**").hasAnyRole("EMPLOYEE", "ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
+                .antMatchers(POST, "/authenticate").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
     }

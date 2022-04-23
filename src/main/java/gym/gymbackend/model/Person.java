@@ -22,6 +22,8 @@ public class Person {
     private String email;
     private String bankNumber;
     private String apiKey;
+    @Column(nullable = false)
+    private boolean enabled = true;
 
     // A Person has none or one employee
     @OneToOne
@@ -133,6 +135,14 @@ public class Person {
         this.apiKey = apiKey;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -157,7 +167,9 @@ public class Person {
         this.workouts = workouts;
     }
 
-    public Set<Authority> getAuthorities() { return authorities; }
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;

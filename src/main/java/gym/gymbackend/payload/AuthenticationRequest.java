@@ -1,13 +1,17 @@
 package gym.gymbackend.payload;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class AuthenticationRequest {
 
+    @NotEmpty
     private String username;
+
+    @Size(min=8)
     private String password;
 
-    public AuthenticationRequest() {
-    }
-
+    public AuthenticationRequest() {}
     public AuthenticationRequest(String username, String password) {
         this.username = username;
         this.password = password;

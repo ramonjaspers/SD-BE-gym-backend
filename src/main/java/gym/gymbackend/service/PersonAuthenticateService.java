@@ -1,8 +1,8 @@
 package gym.gymbackend.service;
 
+import gym.gymbackend.config.JwtUtil;
 import gym.gymbackend.payload.AuthenticationRequest;
 import gym.gymbackend.payload.AuthenticationResponse;
-import gym.gymbackend.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,7 +19,7 @@ public class PersonAuthenticateService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Autowired
     JwtUtil jwtUtl;

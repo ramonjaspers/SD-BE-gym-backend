@@ -2,12 +2,10 @@ package gym.gymbackend.service;
 
 import gym.gymbackend.dto.PersonDto;
 import gym.gymbackend.exceptions.BadRequestException;
-import gym.gymbackend.exceptions.RecordNotFoundException;
 import gym.gymbackend.exceptions.PersonNotFoundException;
 import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Person;
 import gym.gymbackend.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +17,12 @@ import java.util.Set;
 @Service
 public class PersonImplementation implements PersonService {
 
-    private final PersonRepository repos;
-
-    @Autowired
+    private PersonRepository repos;
     PasswordEncoder passwordEncoder;
 
-    public PersonImplementation(PersonRepository repos) {
+    public PersonImplementation(PersonRepository repos, PasswordEncoder passwordEncoder) {
         this.repos = repos;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean personExists(String username) {
@@ -52,14 +49,17 @@ public class PersonImplementation implements PersonService {
             person.setUsername(personDto.getUsername());
             person.setPassword(passwordEncoder.encode(personDto.getPassword()));
             person.setEmail(personDto.getEmail());
+            person.setName(personDto.getName());
+            person.setEnabled(true);
             person.addAuthority("ROLE_USER");
             for (String s : personDto.getAuthorities()) {
-                if (!Objects.equals(s, "ROLE_USER")) {
-                    if (!s.startsWith("ROLE_")) {
-                        s = "ROLE_" + s;
-                    }
-                    person.addAuthority(s);
+                if (Objects.equals(s, "ROLE_USER")) {
+                    continue;
                 }
+                if (!s.startsWith("ROLE_")) {
+                    s = "ROLE_" + s;
+                }
+                person.addAuthority(s);
             }
             Person newPerson = repos.save(person);
             return newPerson.getUsername();
@@ -72,8 +72,7 @@ public class PersonImplementation implements PersonService {
         if (personExists(username)) {
             repos.deleteById(username);
             return true;
-        }
-        else {
+        } else {
             throw new PersonNotFoundException(username);
         }
     }
