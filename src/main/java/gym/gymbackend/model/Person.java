@@ -16,12 +16,14 @@ public class Person {
     private String name;
     private String address;
     private Date dateOfBirth;
-    private Float credit;
+    private Double credit;
     private Sex sex;
     private String picture;
     private String email;
     private String bankNumber;
     private String apiKey;
+    @Column(nullable = false)
+    private boolean enabled = true;
 
     // A Person has none or one employee
     @OneToOne
@@ -85,11 +87,11 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Float getCredit() {
+    public Double getCredit() {
         return credit;
     }
 
-    public void setCredit(Float credit) {
+    public void setCredit(Double credit) {
         this.credit = credit;
     }
 
@@ -133,6 +135,14 @@ public class Person {
         this.apiKey = apiKey;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -157,11 +167,27 @@ public class Person {
         this.workouts = workouts;
     }
 
-    public Set<Authority> getAuthorities() { return authorities; }
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
     public void addAuthority(Authority authority) {
         this.authorities.add(authority);
     }
+
+    public void addAuthority(String authorityString) {
+        this.authorities.add(new Authority(this.username, authorityString));
+    }
+
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
+    }
+
+    public void removeAuthority(String authorityString) {
+        this.authorities.removeIf(authority -> authority.getAuthority().equalsIgnoreCase(authorityString));
     }
 }

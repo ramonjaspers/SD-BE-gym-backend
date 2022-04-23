@@ -1,6 +1,7 @@
 package gym.gymbackend.controller;
 
 import gym.gymbackend.dto.PersonDto;
+import gym.gymbackend.model.Person;
 import gym.gymbackend.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping(value = "/persons")
 public class PersonController {
 
     private final PersonService service;
@@ -20,16 +23,15 @@ public class PersonController {
         this.service = service;
     }
 
-    @GetMapping(value = "/persons")
+    @GetMapping(value = "")
     public ResponseEntity<Object> getPersons() {
-        List<PersonDto> persons = service.getPersons();
-        return new ResponseEntity<>(persons, HttpStatus.OK);
+        return ResponseEntity.ok().body(service.getPersons());
     }
 
-    @GetMapping(value = "/persons/{id}")
-    public ResponseEntity<Object> getPerson(@PathVariable String id) {
+    @GetMapping(value = "/{username}")
+    public ResponseEntity<Object> getPerson(@PathVariable String username) {
         try{
-            PersonDto person = service.getPerson(id);
+            Optional<Person> person = service.getPerson(username);
             return new ResponseEntity<>(person, HttpStatus.OK);
         } catch (Error e) {
             return new ResponseEntity<>("No person found", HttpStatus.NOT_FOUND);
@@ -37,8 +39,8 @@ public class PersonController {
     }
 
 
-    @PostMapping(value = "/persons")
-    public ResponseEntity<Object> createPerson(@Valid @RequestBody PersonDto person, BindingResult br) {
+    @PostMapping(value = "")
+    public ResponseEntity<Object> createPerson(@Valid @RequestBody PersonDto personDto, BindingResult br) {
         if (br.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             for (FieldError fe : br.getFieldErrors()) {
@@ -48,16 +50,16 @@ public class PersonController {
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        service.createPerson(person);
+        service.createPerson(personDto);
         return new ResponseEntity<>("Person created", HttpStatus.CREATED);
     }
 
 
-    @DeleteMapping(value = "/person/{id}")
-    public ResponseEntity<Object> deletePerson(@PathVariable String person) {
+    @DeleteMapping(value = "{username}")
+    public ResponseEntity<Object> deletePerson(@PathVariable String username) {
         try {
-            service.getPerson(person);
-            service.deletePerson(person);
+            service.getPerson(username);
+            service.deletePerson(username);
             return new ResponseEntity<>("Person removed", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Person does not exist", HttpStatus.NOT_FOUND);

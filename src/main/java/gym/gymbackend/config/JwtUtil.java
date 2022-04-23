@@ -1,4 +1,5 @@
-package gym.gymbackend.utils;
+package gym.gymbackend.config;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,8 +13,8 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-
-    private final static String SECRET_KEY = "secret";
+    // 256 bits hex key
+    private final static String SECRET_KEY = "703273357638792F423F4528482B4D6251655368566D597133743677397A2443";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -42,11 +43,13 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
+        long validPeriod = 1000 * 60 * 60 * 24 * 10;   // 10 days in ms
+        long currentTime = System.currentTimeMillis();
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 10))
+                .setIssuedAt(new Date(currentTime))
+                .setExpiration(new Date(currentTime + validPeriod))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
@@ -55,5 +58,4 @@ public class JwtUtil {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
-
 }

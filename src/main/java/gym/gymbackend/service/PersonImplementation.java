@@ -1,79 +1,104 @@
 package gym.gymbackend.service;
 
 import gym.gymbackend.dto.PersonDto;
-import gym.gymbackend.exceptions.RecordNotFoundException;
-import gym.gymbackend.exceptions.UsernameNotFoundException;
+import gym.gymbackend.exceptions.BadRequestException;
+import gym.gymbackend.exceptions.PersonNotFoundException;
 import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Person;
 import gym.gymbackend.repository.PersonRepository;
-import gym.gymbackend.utils.RandomStringGenerator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class PersonImplementation implements PersonService {
 
-    private final PersonRepository repos;
+    private PersonRepository repos;
+    PasswordEncoder passwordEncoder;
 
-    public PersonImplementation(PersonRepository repos) {
+    public PersonImplementation(PersonRepository repos, PasswordEncoder passwordEncoder) {
         this.repos = repos;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public boolean personExists(String username) {
+        return repos.existsById(username);
     }
 
     @Override
-    public List<PersonDto> getPersons() {
-        List<Person> persons = this.repos.findAll();
-        List<PersonDto> dtos = new ArrayList<>();
-        persons.forEach(person -> dtos.add(personToDto(person)));
-        return dtos;
+    public List<Person> getPersons() {
+        return repos.findAll();
     }
 
     @Override
-    public PersonDto getPerson(String username) {
-        if (!this.repos.existsById(username)) {
-            throw new UsernameNotFoundException(username);
+    public Optional<Person> getPerson(String username) {
+        if (personExists(username)) {
+            return repos.findById(username);
         }
-        Person person = this.repos.findById(username).get();
-
-        return personToDto(person);
+        throw new PersonNotFoundException();
     }
 
 
     public String createPerson(PersonDto personDto) {
-        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-        personDto.setApiKey(randomString);
-        Person newPerson = this.repos.save(dtoToPerson(personDto));
-        return newPerson.getUsername();
+        try {
+            Person person = new Person();
+            person.setUsername(personDto.getUsername());
+            person.setPassword(passwordEncoder.encode(personDto.getPassword()));
+            person.setEmail(personDto.getEmail());
+            person.setName(personDto.getName());
+            person.setEnabled(true);
+            person.addAuthority("ROLE_USER");
+            for (String s : personDto.getAuthorities()) {
+                if (Objects.equals(s, "ROLE_USER")) {
+                    continue;
+                }
+                if (!s.startsWith("ROLE_")) {
+                    s = "ROLE_" + s;
+                }
+                person.addAuthority(s);
+            }
+            Person newPerson = repos.save(person);
+            return newPerson.getUsername();
+        } catch (Exception ex) {
+            throw new BadRequestException("Cannot create user.");
+        }
     }
 
-    public void deletePerson(String username) {
-        this.repos.deleteById(username);
+    public Boolean deletePerson(String username) {
+        if (personExists(username)) {
+            repos.deleteById(username);
+            return true;
+        } else {
+            throw new PersonNotFoundException(username);
+        }
     }
 
     @Override
-    public void updatePerson(String username, PersonDto personDto) {
-        if (!this.repos.existsById(username)) {
-            throw new RecordNotFoundException();
+    public Boolean updatePerson(String username, PersonDto personDto) {
+        if (!personExists(username)) {
+            throw new PersonNotFoundException();
         }
         Person person = this.repos.findById(personDto.getUsername()).get();
         person.setPassword(personDto.getPassword());
         this.repos.save(person);
+        return true;
     }
 
     public Set<Authority> getAuthorities(String username) {
         if (!repos.existsById(username)) {
-            throw new UsernameNotFoundException(username);
+            throw new PersonNotFoundException(username);
         }
         Person person = this.repos.findById(username).get();
-        PersonDto personDto = personToDto(person);
-        return personDto.getAuthorities();
+        return person.getAuthorities();
     }
 
     public void addAuthority(String username, String authority) {
         if (!this.repos.existsById(username)) {
-            throw new UsernameNotFoundException(username);
+            throw new PersonNotFoundException(username);
         }
         Person person = this.repos.findById(username).get();
         person.addAuthority(new Authority(username, authority));
@@ -81,7 +106,7 @@ public class PersonImplementation implements PersonService {
     }
 
     public void removeAuthority(String username, String authority) {
-        if (!this.repos.existsById(username)) throw new UsernameNotFoundException(username);
+        if (!this.repos.existsById(username)) throw new PersonNotFoundException(username);
         Person person = this.repos.findById(username).get();
         Authority authorityToRemove = person.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         person.removeAuthority(authorityToRemove);
@@ -108,30 +133,5 @@ public class PersonImplementation implements PersonService {
         Person.setSubscription(personDto.getSubscription());
         Person.setPicture(personDto.getPicture());
         return Person;
-    }
-
-
-    /**
-     * Turn a person object into a PersonDto object
-     *
-     * @param person Person
-     * @return PersonDto
-     */
-    public PersonDto personToDto(Person person) {
-        PersonDto dto = new PersonDto();
-
-        dto.name = person.getName();
-        dto.username = person.getUsername();
-        dto.password = person.getPassword();
-        dto.address = person.getAddress();
-        dto.bankNumber = person.getBankNumber();
-        dto.dateOfBirth = person.getDateOfBirth();
-        dto.credit = person.getCredit();
-        dto.sex = person.getSex();
-        dto.apiKey = person.getApiKey();
-        dto.authorities = person.getAuthorities();
-        dto.subscription = person.getSubscription();
-        dto.picture = person.getPicture();
-        return dto;
     }
 }

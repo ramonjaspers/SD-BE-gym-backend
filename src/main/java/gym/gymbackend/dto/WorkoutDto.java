@@ -3,15 +3,16 @@ package gym.gymbackend.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Data
 public class WorkoutDto {
-    @NotBlank
+    @NotEmpty
     @Size(max = 128)
     private final Long id;
 
-    @NotBlank
+    @NotEmpty
     @Size(max = 128)
     private final Long memberId;
 
