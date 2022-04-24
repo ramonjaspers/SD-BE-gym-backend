@@ -10,9 +10,9 @@ public class Employee {
     @Id
     @GeneratedValue
     private Long id;
+    private Integer salary;
     private Date dateOfEmployment;
     private Date endDateEmployment;
-    private Integer salary;
     //Employee function
     private String func;
     private Integer workWeekDuration;
@@ -28,6 +28,14 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
     }
 
     public Date getDateOfEmployment() {
@@ -46,14 +54,6 @@ public class Employee {
         this.endDateEmployment = endDateEmployment;
     }
 
-    public Integer getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Integer salary) {
-        this.salary = salary;
-    }
-
     public String getFunc() {
         return func;
     }
@@ -68,5 +68,13 @@ public class Employee {
 
     public void setWorkWeekDuration(Integer workWeekDuration) {
         this.workWeekDuration = workWeekDuration;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

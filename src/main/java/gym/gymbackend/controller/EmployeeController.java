@@ -28,7 +28,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{username}")
     public ResponseEntity<Object> getEmployee(@PathVariable String id) {
         try{
             EmployeeDto employee = service.getEmployee(id);

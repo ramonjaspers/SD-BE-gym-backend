@@ -36,10 +36,10 @@ public class PersonImplementation implements PersonService {
 
     @Override
     public Optional<Person> getPerson(String username) {
-        if (personExists(username)) {
-            return repos.findById(username);
+        if (!personExists(username)) {
+            throw new PersonNotFoundException();
         }
-        throw new PersonNotFoundException();
+        return repos.findById(username);
     }
 
 
@@ -61,7 +61,7 @@ public class PersonImplementation implements PersonService {
                 }
                 person.addAuthority(s);
             }
-            Person newPerson = repos.save(person);
+            Person newPerson = this.repos.save(person);
             return newPerson.getUsername();
         } catch (Exception ex) {
             throw new BadRequestException("Cannot create user.");
@@ -102,7 +102,7 @@ public class PersonImplementation implements PersonService {
     }
 
     public void addAuthority(String username, String authority) {
-        if (!this.repos.existsById(username)) {
+        if (!personExists(username)) {
             throw new PersonNotFoundException(username);
         }
         Person person = this.repos.findById(username).get();
@@ -111,7 +111,7 @@ public class PersonImplementation implements PersonService {
     }
 
     public void removeAuthority(String username, String authority) {
-        if (!this.repos.existsById(username)) throw new PersonNotFoundException(username);
+        if (!personExists(username)) throw new PersonNotFoundException(username);
         Person person = this.repos.findById(username).get();
         Authority authorityToRemove = person.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         person.removeAuthority(authorityToRemove);

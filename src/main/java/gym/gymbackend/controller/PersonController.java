@@ -53,9 +53,12 @@ public class PersonController {
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-
-        service.createPerson(personDto);
-        return new ResponseEntity<>("Person created", HttpStatus.CREATED);
+        try {
+            service.createPerson(personDto);
+            return new ResponseEntity<>("Person created", HttpStatus.CREATED);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 

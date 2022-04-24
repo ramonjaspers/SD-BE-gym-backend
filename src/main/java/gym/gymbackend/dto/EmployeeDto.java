@@ -12,26 +12,17 @@ public class EmployeeDto {
     @Size(max = 128)
     private final Long id;
 
-    @NotEmpty
-    @Size(max = 128)
-    private final String firstName;
-
-    @NotEmpty
-    @Size(max = 128)
-    private final String lastName;
-
-    @Email
-    private final String email;
-
     @Max(value = 10000, message = "Salary too high, check the salary value or contact the administrator")
     private final Integer salary;
 
     @Past(message = "Date must be in the past!")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private final Date dateOfEmployment;
 
     @Past(message = "Date must be in the past!")
-    // @JsonFormat(pattern="dd-MM-yyyy")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private final Date dateOfBirth;
+
+    @NotEmpty
+    private final String func;
+
+    private final Integer workweekDuration;
 }
