@@ -1,7 +1,7 @@
 package gym.gymbackend.dto;
 
+import gym.gymbackend.model.Person;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.util.Date;
@@ -25,4 +25,6 @@ public class EmployeeDto {
     private final String func;
 
     private final Integer workweekDuration;
+
+    private final Person person;
 }
