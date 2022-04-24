@@ -2,10 +2,15 @@ package gym.gymbackend.service;
 
 import gym.gymbackend.dto.PersonDto;
 import gym.gymbackend.exceptions.BadRequestException;
+import gym.gymbackend.exceptions.InvalidPasswordException;
+import gym.gymbackend.exceptions.NotAuthorizedException;
 import gym.gymbackend.exceptions.PersonNotFoundException;
 import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Person;
 import gym.gymbackend.repository.PersonRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -110,7 +115,7 @@ public class PersonImplementation implements PersonService {
     }
 
     public void removeAuthority(String username, String authority) {
-        if (!personExists(username)){
+        if (!personExists(username)) {
             throw new PersonNotFoundException(username);
         }
         Person person = this.repos.findById(username).get();
@@ -129,25 +134,27 @@ public class PersonImplementation implements PersonService {
         return true;
     }
 
-    /**
-     * Turn a PersonDto object into a Person
-     *
-     * @param personDto PersonDto
-     * @return Person
-     */
-    public Person dtoToPerson(PersonDto personDto) {
-        Person Person = new Person();
-        Person.setName(personDto.getName());
-        Person.setUsername(personDto.getUsername());
-        Person.setPassword(personDto.getPassword());
-        Person.setApiKey(personDto.getApiKey());
-        Person.setAddress(personDto.getAddress());
-        Person.setDateOfBirth(personDto.getDateOfBirth());
-        Person.setCredit(personDto.getCredit());
-        Person.setSex(personDto.getSex());
-        Person.setBankNumber(personDto.getBankNumber());
-        Person.setSubscription(personDto.getSubscription());
-        Person.setPicture(personDto.getPicture());
-        return Person;
+    private String getCurrentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ((UserDetails) authentication.getPrincipal()).getUsername();
+    }
+
+    public void setPassword(String username, String password) {
+        if (username.equals(getCurrentUserName())) {
+            if (password.length() > 2) {
+                Optional<Person> personOptional = repos.findById(username);
+                if (personOptional.isPresent()) {
+                    Person person = personOptional.get();
+                    person.setPassword(passwordEncoder.encode(password));
+                    repos.save(person);
+                } else {
+                    throw new PersonNotFoundException(username);
+                }
+            } else {
+                throw new InvalidPasswordException();
+            }
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 }

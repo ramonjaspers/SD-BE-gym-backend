@@ -112,4 +112,9 @@ public class PersonController {
         return new ResponseEntity<>("Failed", HttpStatus.NOT_FOUND);
     }
 
+    @PatchMapping(value = "/{username}/password")
+    public ResponseEntity<Object> setPassword(@PathVariable("username") String username, @RequestBody String password) {
+        service.setPassword(username, password);
+        return new ResponseEntity<>("Password updated", HttpStatus.OK);
+    }
 }

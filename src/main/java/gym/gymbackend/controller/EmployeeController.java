@@ -29,9 +29,9 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/{username}")
-    public ResponseEntity<Object> getEmployee(@PathVariable String id) {
+    public ResponseEntity<Object> getEmployee(@PathVariable String username) {
         try{
-            EmployeeDto employee = service.getEmployee(id);
+            EmployeeDto employee = service.getEmployee(username);
             return new ResponseEntity<>(employee, HttpStatus.OK);
         } catch (Error e) {
             return new ResponseEntity<>("No employee found", HttpStatus.NOT_FOUND);

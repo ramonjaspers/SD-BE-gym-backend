@@ -1,6 +1,7 @@
 package gym.gymbackend.service;
 
 import gym.gymbackend.dto.EmployeeDto;
+import gym.gymbackend.model.Employee;
 import gym.gymbackend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,15 @@ public class EmployeeImplementation implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDto> getEmployees() {
+    public EmployeeDto getEmployee(String username) {
         return null;
     }
 
     @Override
-    public EmployeeDto getEmployee(String person) {
+    public List<EmployeeDto> getEmployees() {
         return null;
     }
+
 
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
@@ -37,6 +39,11 @@ public class EmployeeImplementation implements EmployeeService {
 
     @Override
     public Boolean updateEmployee(EmployeeDto employeeDto) {
+        return null;
+    }
+
+    @Override
+    public Boolean updateSalary(EmployeeDto employeeDto) {
         return null;
     }
 }

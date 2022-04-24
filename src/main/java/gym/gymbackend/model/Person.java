@@ -28,7 +28,6 @@ public class Person {
 
     // A Person has none or one employee
     @OneToOne
-    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     // Multiple persons have a subscription
@@ -142,14 +141,6 @@ public class Person {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     public Subscription getSubscription() {

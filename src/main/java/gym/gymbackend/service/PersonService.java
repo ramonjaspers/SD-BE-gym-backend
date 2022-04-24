@@ -14,4 +14,5 @@ public interface PersonService {
     Boolean deletePerson(String username);
     Boolean updatePerson(String username, Person person);
     Boolean deleteImage(String username);
+    void setPassword(String username, String Password);
 }

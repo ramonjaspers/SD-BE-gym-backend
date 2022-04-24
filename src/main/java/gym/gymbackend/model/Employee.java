@@ -18,9 +18,9 @@ public class Employee {
     private Integer workWeekDuration;
 
     // An employee can only belong to a single person
-    @OneToOne(mappedBy = "employee")
-    @JsonIgnore
-    Person person;
+    @OneToOne
+    @JoinColumn(name = "username")
+    private Person person;
 
     public Long getId() {
         return id;
