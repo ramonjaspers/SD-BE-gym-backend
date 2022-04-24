@@ -82,11 +82,15 @@ public class PersonController {
         try {
             Person person = personObj.get();
             person.setPicture(picture.getBytes());
-            service.updatePerson(username, person);
+            Boolean success = service.updatePerson(username, person);
+            if (success) {
+                return "Image uploaded for " + username;
+            } else {
+                return "Something went wrong";
+            }
         } catch (IOException e) {
             throw new BadRequestException("Error while uploading image");
         }
-        return "Image uploaded for " + username;
     }
 
     @GetMapping(value = "/{username}/image", produces = MediaType.IMAGE_PNG_VALUE)

@@ -42,7 +42,6 @@ public class PersonImplementation implements PersonService {
         return repos.findById(username);
     }
 
-
     public String createPerson(PersonDto personDto) {
         try {
             Person person = new Person();
@@ -111,10 +110,11 @@ public class PersonImplementation implements PersonService {
     }
 
     public void removeAuthority(String username, String authority) {
-        if (!personExists(username)) throw new PersonNotFoundException(username);
+        if (!personExists(username)){
+            throw new PersonNotFoundException(username);
+        }
         Person person = this.repos.findById(username).get();
-        Authority authorityToRemove = person.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
-        person.removeAuthority(authorityToRemove);
+        person.removeAuthority(authority);
         this.repos.save(person);
     }
 
