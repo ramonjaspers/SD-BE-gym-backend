@@ -2,10 +2,15 @@ package gym.gymbackend.service;
 
 import gym.gymbackend.dto.PersonDto;
 import gym.gymbackend.exceptions.BadRequestException;
+import gym.gymbackend.exceptions.InvalidPasswordException;
+import gym.gymbackend.exceptions.NotAuthorizedException;
 import gym.gymbackend.exceptions.PersonNotFoundException;
 import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Person;
 import gym.gymbackend.repository.PersonRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +30,13 @@ public class PersonImplementation implements PersonService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     *
+     * @param username
+     * @return {Boolean} isPresent()
+     */
     public boolean personExists(String username) {
-        return repos.existsById(username);
+        return repos.findById(username).isPresent();
     }
 
     @Override
@@ -35,13 +45,12 @@ public class PersonImplementation implements PersonService {
     }
 
     @Override
-    public Optional<Person> getPerson(String username) {
-        if (personExists(username)) {
-            return repos.findById(username);
+    public Person getPerson(String username) {
+        if (!personExists(username)) {
+            throw new PersonNotFoundException();
         }
-        throw new PersonNotFoundException();
+        return repos.findById(username).get();
     }
-
 
     public String createPerson(PersonDto personDto) {
         try {
@@ -51,9 +60,10 @@ public class PersonImplementation implements PersonService {
             person.setEmail(personDto.getEmail());
             person.setName(personDto.getName());
             person.setEnabled(true);
-            person.addAuthority("ROLE_USER");
+            // Set default minimum authority
+            person.addAuthority("ROLE_PERSON");
             for (String s : personDto.getAuthorities()) {
-                if (Objects.equals(s, "ROLE_USER")) {
+                if (Objects.equals(s, "ROLE_PERSON")) {
                     continue;
                 }
                 if (!s.startsWith("ROLE_")) {
@@ -61,7 +71,7 @@ public class PersonImplementation implements PersonService {
                 }
                 person.addAuthority(s);
             }
-            Person newPerson = repos.save(person);
+            Person newPerson = this.repos.save(person);
             return newPerson.getUsername();
         } catch (Exception ex) {
             throw new BadRequestException("Cannot create user.");
@@ -102,7 +112,7 @@ public class PersonImplementation implements PersonService {
     }
 
     public void addAuthority(String username, String authority) {
-        if (!this.repos.existsById(username)) {
+        if (!personExists(username)) {
             throw new PersonNotFoundException(username);
         }
         Person person = this.repos.findById(username).get();
@@ -111,10 +121,11 @@ public class PersonImplementation implements PersonService {
     }
 
     public void removeAuthority(String username, String authority) {
-        if (!this.repos.existsById(username)) throw new PersonNotFoundException(username);
+        if (!personExists(username)) {
+            throw new PersonNotFoundException(username);
+        }
         Person person = this.repos.findById(username).get();
-        Authority authorityToRemove = person.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
-        person.removeAuthority(authorityToRemove);
+        person.removeAuthority(authority);
         this.repos.save(person);
     }
 
@@ -129,25 +140,26 @@ public class PersonImplementation implements PersonService {
         return true;
     }
 
-    /**
-     * Turn a PersonDto object into a Person
-     *
-     * @param personDto PersonDto
-     * @return Person
-     */
-    public Person dtoToPerson(PersonDto personDto) {
-        Person Person = new Person();
-        Person.setName(personDto.getName());
-        Person.setUsername(personDto.getUsername());
-        Person.setPassword(personDto.getPassword());
-        Person.setApiKey(personDto.getApiKey());
-        Person.setAddress(personDto.getAddress());
-        Person.setDateOfBirth(personDto.getDateOfBirth());
-        Person.setCredit(personDto.getCredit());
-        Person.setSex(personDto.getSex());
-        Person.setBankNumber(personDto.getBankNumber());
-        Person.setSubscription(personDto.getSubscription());
-        Person.setPicture(personDto.getPicture());
-        return Person;
+    private String getCurrentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ((UserDetails) authentication.getPrincipal()).getUsername();
+    }
+
+    public void setPassword(String username, String password) {
+        if (username.equals(getCurrentUserName())) {
+            if (password.length() > 2) {
+                if (personExists(username)) {
+                    Person person = repos.findById(username).get();
+                    person.setPassword(passwordEncoder.encode(password));
+                    repos.save(person);
+                } else {
+                    throw new PersonNotFoundException(username);
+                }
+            } else {
+                throw new InvalidPasswordException();
+            }
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 }

@@ -1,7 +1,6 @@
 package gym.gymbackend.service;
 
 
-import gym.gymbackend.dto.PersonDto;
 import gym.gymbackend.model.Authority;
 import gym.gymbackend.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 
@@ -27,16 +26,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        Optional<Person> personObject = personService.getPerson(username);
-        if(personObject.isEmpty()){
+        Person person = personService.getPerson(username);
+        if (ObjectUtils.isEmpty(person)) {
             throw new UsernameNotFoundException(username);
         }
-
-        Person person = personObject.get();
         String password = person.getPassword();
         Set<Authority> authorities = person.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (Authority authority: authorities) {
+        for (Authority authority : authorities) {
             grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
         }
 

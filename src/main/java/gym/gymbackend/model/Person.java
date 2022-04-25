@@ -22,13 +22,11 @@ public class Person {
     private byte[] picture;
     private String email;
     private String bankNumber;
-    private String apiKey;
     @Column(nullable = false)
     private boolean enabled = true;
 
     // A Person has none or one employee
-    @OneToOne
-    @JoinColumn(name = "employee_id")
+    @OneToOne(mappedBy = "person")
     private Employee employee;
 
     // Multiple persons have a subscription
@@ -128,28 +126,12 @@ public class Person {
         this.bankNumber = bankNumber;
     }
 
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     public Subscription getSubscription() {
@@ -182,10 +164,6 @@ public class Person {
 
     public void addAuthority(String authorityString) {
         this.authorities.add(new Authority(this.username, authorityString));
-    }
-
-    public void removeAuthority(Authority authority) {
-        this.authorities.remove(authority);
     }
 
     public void removeAuthority(String authorityString) {

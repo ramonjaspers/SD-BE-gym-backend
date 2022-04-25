@@ -1,37 +1,25 @@
 package gym.gymbackend.dto;
 
+import gym.gymbackend.model.Person;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.util.Date;
 
 @Data
 public class EmployeeDto {
-    @NotEmpty
-    @Size(max = 128)
-    private final Long id;
-
-    @NotEmpty
-    @Size(max = 128)
-    private final String firstName;
-
-    @NotEmpty
-    @Size(max = 128)
-    private final String lastName;
-
-    @Email
-    private final String email;
-
     @Max(value = 10000, message = "Salary too high, check the salary value or contact the administrator")
     private final Integer salary;
 
-    @Past(message = "Date must be in the past!")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Past(message = "dateOfEmployment must be in the past")
     private final Date dateOfEmployment;
 
-    @Past(message = "Date must be in the past!")
-    // @JsonFormat(pattern="dd-MM-yyyy")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private final Date dateOfBirth;
+    @FutureOrPresent(message = "dateTillEmployment must be in the future")
+    private final Date dateTillEmployment;
+
+    @NotBlank(message = "Employee needs a 'func'(function)")
+    private final String func;
+
+    @NotNull(message = "Employee needs a workweekDuration")
+    private final Integer workweekDuration;
 }

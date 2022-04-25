@@ -4,14 +4,14 @@ import gym.gymbackend.dto.PersonDto;
 import gym.gymbackend.model.Person;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PersonService {
 
-    public List<Person> getPersons();
-    public Optional<Person> getPerson(String username);
-    public String createPerson(PersonDto personDto);
-    public Boolean deletePerson(String username);
-    public Boolean updatePerson(String username, Person person);
-    public Boolean deleteImage(String username);
+    List<Person> getPersons();
+    Person getPerson(String username);
+    String createPerson(PersonDto personDto);
+    Boolean deletePerson(String username);
+    Boolean updatePerson(String username, Person person);
+    Boolean deleteImage(String username);
+    void setPassword(String username, String Password);
 }

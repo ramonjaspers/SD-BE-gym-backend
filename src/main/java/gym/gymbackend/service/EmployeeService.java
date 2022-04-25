@@ -1,14 +1,15 @@
 package gym.gymbackend.service;
 
 import gym.gymbackend.dto.EmployeeDto;
+import gym.gymbackend.model.Employee;
 
 import java.util.List;
 
 public interface EmployeeService {
-
-    public List<EmployeeDto> getEmployees();
-    public EmployeeDto getEmployee(String username);
-    public EmployeeDto createEmployee(EmployeeDto employeeDto);
-    public Boolean deleteEmployee(String username);
-    public Boolean updateEmployee(EmployeeDto employeeDto);
+    Employee getEmployee(String username);
+    List<Employee> getEmployees();
+    void createEmployee(String username, EmployeeDto employeeDto);
+    void deleteEmployee(String username);
+    void updateEmployee(String username, EmployeeDto employeeDto);
+    void updateSalary(String username, Integer salary);
 }

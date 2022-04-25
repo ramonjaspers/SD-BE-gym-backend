@@ -1,6 +1,8 @@
 package gym.gymbackend.controller;
 
 import gym.gymbackend.dto.EmployeeDto;
+import gym.gymbackend.model.Employee;
+import gym.gymbackend.model.Person;
 import gym.gymbackend.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,20 +20,20 @@ public class EmployeeController {
 
     private final EmployeeService service;
 
-    public EmployeeController(EmployeeService service){
+    public EmployeeController(EmployeeService service) {
         this.service = service;
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<List<EmployeeDto>> getEmployees() {
-        List<EmployeeDto> employees = service.getEmployees();
+    public ResponseEntity<List<Employee>> getEmployees() {
+        List<Employee> employees = service.getEmployees();
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getEmployee(@PathVariable String id) {
-        try{
-            EmployeeDto employee = service.getEmployee(id);
+    @GetMapping(value = "/{username}")
+    public ResponseEntity<Object> getEmployee(@PathVariable String username) {
+        try {
+            Employee employee = service.getEmployee(username);
             return new ResponseEntity<>(employee, HttpStatus.OK);
         } catch (Error e) {
             return new ResponseEntity<>("No employee found", HttpStatus.NOT_FOUND);
@@ -39,8 +41,8 @@ public class EmployeeController {
     }
 
 
-    @PostMapping(value = "/employees")
-    public ResponseEntity<Object> createEmployee(@Valid @RequestBody EmployeeDto employee, BindingResult br) {
+    @PostMapping(value = "/{username}")
+    public ResponseEntity<Object> createEmployee(@PathVariable String username, @Valid @RequestBody EmployeeDto employee, BindingResult br) {
         if (br.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             for (FieldError fe : br.getFieldErrors()) {
@@ -50,19 +52,31 @@ public class EmployeeController {
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        service.createEmployee(employee);
+        service.createEmployee(username, employee);
         return new ResponseEntity<>("Employee created", HttpStatus.CREATED);
     }
 
 
-    @DeleteMapping(value = "/employee/{id}")
-    public ResponseEntity<Object> deleteEmployee(@PathVariable String employee) {
+    @DeleteMapping(value = "/{username}")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable String username) {
         try {
-            service.getEmployee(employee);
-            service.deleteEmployee(employee);
-            return new ResponseEntity<>("Person removed", HttpStatus.OK);
+            service.getEmployee(username);
+            service.deleteEmployee(username);
+            return new ResponseEntity<>(username + " removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Person does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Employee does not exist", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PutMapping(value = "/{username}")
+    public ResponseEntity<Object> updateEmployee(@PathVariable String username, @RequestBody EmployeeDto employeeDto) {
+        service.updateEmployee(username, employeeDto);
+        return new ResponseEntity<>(username + " employee fields updated", HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/{username}/salary")
+    public ResponseEntity<Object> updateSalary(@PathVariable("username") String username, @RequestBody Integer salary) {
+        service.updateSalary(username, salary);
+        return new ResponseEntity<>(username + " salary updated", HttpStatus.OK);
     }
 }
