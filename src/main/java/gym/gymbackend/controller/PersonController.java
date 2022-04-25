@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class PersonController {
     @GetMapping(value = "/{username}")
     public ResponseEntity<Object> getPerson(@PathVariable String username) {
         try {
-            Optional<Person> person = service.getPerson(username);
+            Person person = service.getPerson(username);
             return new ResponseEntity<>(person, HttpStatus.OK);
         } catch (Error e) {
             return new ResponseEntity<>("No person found", HttpStatus.NOT_FOUND);
@@ -75,12 +76,11 @@ public class PersonController {
 
     @PostMapping("/{username}/image")
     public String uploadImage(@PathVariable String username, @RequestBody MultipartFile picture) {
-        Optional<Person> personObj = service.getPerson(username);
-        if (personObj.isEmpty()) {
+        Person person = service.getPerson(username);
+        if (ObjectUtils.isEmpty(person)) {
             throw new UsernameNotFoundException(username);
         }
         try {
-            Person person = personObj.get();
             person.setPicture(picture.getBytes());
             Boolean success = service.updatePerson(username, person);
             if (success) {
@@ -96,16 +96,15 @@ public class PersonController {
     @GetMapping(value = "/{username}/image", produces = MediaType.IMAGE_PNG_VALUE)
     public @ResponseBody
     byte[] getImage(@PathVariable String username) {
-        Optional<Person> personObj = service.getPerson(username);
-        if (personObj.isEmpty()) {
+        Person person = service.getPerson(username);
+        if (ObjectUtils.isEmpty(person)) {
             throw new UsernameNotFoundException(username);
         }
-        Person person = personObj.get();
         return person.getPicture();
     }
 
     @DeleteMapping(value = "/{username}/image")
-    public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username) {
+    public ResponseEntity<Object> deleteUserAuthority( String username) {
         if (service.deleteImage(username)) {
             return new ResponseEntity<>("Image deleted", HttpStatus.OK);
         }
@@ -113,8 +112,14 @@ public class PersonController {
     }
 
     @PatchMapping(value = "/{username}/password")
-    public ResponseEntity<Object> setPassword(@PathVariable("username") String username, @RequestBody String password) {
+    public ResponseEntity<Object> setPassword(@PathVariable String username, @RequestBody String password) {
         service.setPassword(username, password);
         return new ResponseEntity<>("Password updated", HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{username}")
+    public ResponseEntity<Object> updatePerson(@PathVariable String username, @RequestBody Person person) {
+        service.updatePerson(username, person);
+        return ResponseEntity.noContent().build();
     }
 }

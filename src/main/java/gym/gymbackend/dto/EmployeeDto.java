@@ -8,23 +8,18 @@ import java.util.Date;
 
 @Data
 public class EmployeeDto {
-    @NotEmpty
-    @Size(max = 128)
-    private final Long id;
-
     @Max(value = 10000, message = "Salary too high, check the salary value or contact the administrator")
     private final Integer salary;
 
-    @Past(message = "Date must be in the past!")
+    @Past(message = "dateOfEmployment must be in the past")
     private final Date dateOfEmployment;
 
-    @Past(message = "Date must be in the past!")
-    private final Date dateOfBirth;
+    @FutureOrPresent(message = "dateTillEmployment must be in the future")
+    private final Date dateTillEmployment;
 
-    @NotEmpty
+    @NotBlank(message = "Employee needs a 'func'(function)")
     private final String func;
 
+    @NotNull(message = "Employee needs a workweekDuration")
     private final Integer workweekDuration;
-
-    private final Person person;
 }

@@ -30,8 +30,6 @@ public class PersonDto {
     public Double credit;
     @NotNull
     public Sex sex;
-    @Size(max = 128)
-    public String apiKey;
     @JsonSerialize
     public Set<String> authorities;
     public Subscription subscription;

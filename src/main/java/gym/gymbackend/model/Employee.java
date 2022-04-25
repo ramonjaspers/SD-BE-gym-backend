@@ -8,25 +8,25 @@ import java.util.Date;
 @Entity
 public class Employee {
     @Id
-    @GeneratedValue
-    private Long id;
+    private String id;
     private Integer salary;
     private Date dateOfEmployment;
-    private Date endDateEmployment;
+    private Date dateTillEmployment;
     //Employee function
     private String func;
     private Integer workWeekDuration;
 
     // An employee can only belong to a single person
     @OneToOne
+    @MapsId
     @JoinColumn(name = "username")
     private Person person;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,12 +46,12 @@ public class Employee {
         this.dateOfEmployment = dateOfEmployment;
     }
 
-    public Date getEndDateEmployment() {
-        return endDateEmployment;
+    public Date getDateTillEmployment() {
+        return dateTillEmployment;
     }
 
-    public void setEndDateEmployment(Date endDateEmployment) {
-        this.endDateEmployment = endDateEmployment;
+    public void setDateTillEmployment(Date dateTillEmployment) {
+        this.dateTillEmployment = dateTillEmployment;
     }
 
     public String getFunc() {

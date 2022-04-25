@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "")
+@RequestMapping(value = "/authenticate")
 public class AuthenticationController {
 
     PersonAuthenticateService personAuthenticateService;
@@ -20,7 +20,7 @@ public class AuthenticationController {
         this.personAuthenticateService = personAuthenticateService;
     }
 
-    @PostMapping(value = "/authenticate")
+    @PostMapping(value = "")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             AuthenticationResponse authenticationResponse = personAuthenticateService.authenticatePerson(authenticationRequest);

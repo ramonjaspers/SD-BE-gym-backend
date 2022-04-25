@@ -30,8 +30,13 @@ public class PersonImplementation implements PersonService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     *
+     * @param username
+     * @return {Boolean} isPresent()
+     */
     public boolean personExists(String username) {
-        return repos.existsById(username);
+        return repos.findById(username).isPresent();
     }
 
     @Override
@@ -40,11 +45,11 @@ public class PersonImplementation implements PersonService {
     }
 
     @Override
-    public Optional<Person> getPerson(String username) {
+    public Person getPerson(String username) {
         if (!personExists(username)) {
             throw new PersonNotFoundException();
         }
-        return repos.findById(username);
+        return repos.findById(username).get();
     }
 
     public String createPerson(PersonDto personDto) {
@@ -55,9 +60,10 @@ public class PersonImplementation implements PersonService {
             person.setEmail(personDto.getEmail());
             person.setName(personDto.getName());
             person.setEnabled(true);
-            person.addAuthority("ROLE_USER");
+            // Set default minimum authority
+            person.addAuthority("ROLE_PERSON");
             for (String s : personDto.getAuthorities()) {
-                if (Objects.equals(s, "ROLE_USER")) {
+                if (Objects.equals(s, "ROLE_PERSON")) {
                     continue;
                 }
                 if (!s.startsWith("ROLE_")) {
@@ -142,9 +148,8 @@ public class PersonImplementation implements PersonService {
     public void setPassword(String username, String password) {
         if (username.equals(getCurrentUserName())) {
             if (password.length() > 2) {
-                Optional<Person> personOptional = repos.findById(username);
-                if (personOptional.isPresent()) {
-                    Person person = personOptional.get();
+                if (personExists(username)) {
+                    Person person = repos.findById(username).get();
                     person.setPassword(passwordEncoder.encode(password));
                     repos.save(person);
                 } else {
