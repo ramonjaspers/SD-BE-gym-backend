@@ -8,9 +8,7 @@ import java.util.Date;
 @Entity
 public class Subscription {
     @Id
-    @GeneratedValue
-    @JsonIgnore
-    private String id;
+    private String username;
     private Date subscriptionStartDate;
     private Date subscriptionEndDate;
 
@@ -25,12 +23,12 @@ public class Subscription {
     @JoinColumn(name = "membership")
     private Membership membership;
 
-    public String getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Date getSubscriptionStartDate() {
@@ -61,7 +59,7 @@ public class Subscription {
         return membership;
     }
 
-    public void getMembership(Membership membership) {
+    public void setMembership(Membership membership) {
         this.membership = membership;
     }
 }

@@ -68,7 +68,7 @@ public class MembershipController {
     }
 
     @PutMapping(value = "/{name}")
-    public ResponseEntity<Object> updateMembership(@PathVariable String name, @RequestBody MembershipDto membershipDto) {
+    public ResponseEntity<Object> updateMembership(@PathVariable String name, @Valid @RequestBody MembershipDto membershipDto) {
         service.updateMembership(name, membershipDto);
         return new ResponseEntity<>(name + " membership fields updated", HttpStatus.OK);
     }

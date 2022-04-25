@@ -6,9 +6,13 @@ import gym.gymbackend.model.Subscription;
 import java.util.List;
 
 public interface SubscriptionService {
-    public List<Subscription> getSubscriptions();
-    public SubscriptionDto getSubscription(String username);
-    public Subscription createSubscription(SubscriptionDto subDto);
-    public Subscription updateSubscription(SubscriptionDto subDto);
-    public Boolean deleteSubscription(String username);
+    List<Subscription> getSubscriptions();
+
+    Subscription getSubscription(String username);
+
+    void createSubscription(String username, SubscriptionDto subscriptionDto);
+
+    void updateSubscription(String username, SubscriptionDto subscriptionDto);
+
+    void deleteSubscription(String username);
 }
