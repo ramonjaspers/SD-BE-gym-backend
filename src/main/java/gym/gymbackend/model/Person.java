@@ -17,7 +17,7 @@ public class Person {
     private String name;
     private String address;
     private Date dateOfBirth;
-    private Double credit;
+    private Long credit;
     private Sex sex;
     @Lob
     private byte[] picture;
@@ -28,12 +28,10 @@ public class Person {
 
     // A Person has none or one employee
     @OneToOne(mappedBy = "person")
-    @JsonIgnore
     private Employee employee;
 
-    // Multiple persons have a subscription
-    @ManyToOne
-    @JoinColumn(name = "subscription_id")
+    // One person has one membership
+    @OneToOne(mappedBy = "person")
     private Subscription subscription;
 
     // Multiple persons have a subscription
@@ -88,11 +86,11 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Double getCredit() {
+    public Long getCredit() {
         return credit;
     }
 
-    public void setCredit(Double credit) {
+    public void setCredit(Long credit) {
         this.credit = credit;
     }
 
@@ -142,14 +140,6 @@ public class Person {
 
     public void setSubscription(Subscription subscription) {
         this.subscription = subscription;
-    }
-
-    public List<Workout> getWorkouts() {
-        return workouts;
-    }
-
-    public void setWorkouts(List<Workout> workouts) {
-        this.workouts = workouts;
     }
 
     public Set<Authority> getAuthorities() {

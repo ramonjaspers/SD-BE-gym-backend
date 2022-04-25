@@ -1,5 +1,7 @@
 package gym.gymbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -7,7 +9,7 @@ import java.util.Date;
 public class Employee {
     @Id
     private String id;
-    private Integer salary;
+    private Long salary;
     private Date dateOfEmployment;
     private Date dateTillEmployment;
     //Employee function
@@ -18,6 +20,7 @@ public class Employee {
     @OneToOne
     @MapsId
     @JoinColumn(name = "username")
+    @JsonIgnore
     private Person person;
 
     public String getId() {
@@ -28,11 +31,11 @@ public class Employee {
         this.id = id;
     }
 
-    public Integer getSalary() {
+    public Long getSalary() {
         return salary;
     }
 
-    public void setSalary(Integer salary) {
+    public void setSalary(Long salary) {
         this.salary = salary;
     }
 

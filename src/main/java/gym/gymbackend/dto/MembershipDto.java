@@ -1,23 +1,20 @@
 package gym.gymbackend.dto;
 
 import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Data
-public class SubscriptionDto {
-    @NotEmpty
-    @Size(max = 128)
-    private final Long id;
-
+public class MembershipDto {
     @NotBlank
     @Size(max = 128)
-    private final String name;
+    private final String Name;
 
     @NotEmpty
     private final Long price;
 
     @NotEmpty
-    private final Long subscriptionId;
+    private final Integer weight;
 }

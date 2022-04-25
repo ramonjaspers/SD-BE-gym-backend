@@ -2,68 +2,66 @@ package gym.gymbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Subscription {
     @Id
     @GeneratedValue
-    private Long id;
-    private String name;
-    private Double Price;
-
-    // A subscription has multiple persons
-    @OneToMany(mappedBy = "subscription")
     @JsonIgnore
-    List<Person> persons;
+    private String id;
+    private Date subscriptionStartDate;
+    private Date subscriptionEndDate;
 
-    // One subscription has many facilities to access
-    @OneToMany(mappedBy = "subscription")
+    // one membership has one person
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "username")
     @JsonIgnore
-    List<Facility> facilities = new ArrayList<>();
+    private Person person;
 
-    public Long getId() {
+    @ManyToOne
+    @JoinColumn(name = "membership")
+    private Membership membership;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Date getSubscriptionStartDate() {
+        return subscriptionStartDate;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSubscriptionStartDate(Date subscriptionStartDate) {
+        this.subscriptionStartDate = subscriptionStartDate;
     }
 
-    public Double getPrice() {
-        return Price;
+    public Date getSubscriptionEndDate() {
+        return subscriptionEndDate;
     }
 
-    public void setPrice(Double price) {
-        Price = price;
+    public void setSubscriptionEndDate(Date subscriptionEndDate) {
+        this.subscriptionEndDate = subscriptionEndDate;
     }
 
-    public List<Person> getPersons() {
-        return persons;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public List<Facility> getFacilities() {
-        return facilities;
+    public Membership getMembership() {
+        return membership;
     }
 
-    public void setFacilities(List<Facility> facilities) {
-        this.facilities = facilities;
+    public void getMembership(Membership membership) {
+        this.membership = membership;
     }
 }

@@ -87,7 +87,7 @@ public class EmployeeImplementation implements EmployeeService {
     }
 
     @Override
-    public void updateSalary(String username, Integer salary) {
+    public void updateSalary(String username, Long salary) {
         if (!employeeExists(username)) {
             throw new PersonNotFoundException(username);
         }

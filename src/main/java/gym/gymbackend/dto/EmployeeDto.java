@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class EmployeeDto {
     @Max(value = 10000, message = "Salary too high, check the salary value or contact the administrator")
-    private final Integer salary;
+    private final Long salary;
 
     @Past(message = "dateOfEmployment must be in the past")
     private final Date dateOfEmployment;

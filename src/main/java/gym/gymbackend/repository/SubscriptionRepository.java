@@ -1,6 +1,6 @@
 package gym.gymbackend.repository;
 
-import gym.gymbackend.model.Person;
+import gym.gymbackend.model.Subscription;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SubscriptionRepository extends JpaRepository<Person, String> {}
+public interface SubscriptionRepository extends JpaRepository<Subscription, String> {}
