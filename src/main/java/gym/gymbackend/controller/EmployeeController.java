@@ -69,7 +69,7 @@ public class EmployeeController {
     }
 
     @PutMapping(value = "/{username}")
-    public ResponseEntity<Object> updateEmployee(@PathVariable String username, @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<Object> updateEmployee(@PathVariable String username, @Valid @RequestBody EmployeeDto employeeDto) {
         service.updateEmployee(username, employeeDto);
         return new ResponseEntity<>(username + " employee fields updated", HttpStatus.OK);
     }
