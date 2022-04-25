@@ -1,5 +1,6 @@
 package gym.gymbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gym.gymbackend.enums.Sex;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Person {
 
     // A Person has none or one employee
     @OneToOne(mappedBy = "person")
+    @JsonIgnore
     private Employee employee;
 
     // Multiple persons have a subscription

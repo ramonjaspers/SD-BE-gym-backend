@@ -60,6 +60,7 @@ public class PersonImplementation implements PersonService {
             person.setEmail(personDto.getEmail());
             person.setName(personDto.getName());
             person.setEnabled(true);
+            person.setSex(personDto.getSex());
             // Set default minimum authority
             person.addAuthority("ROLE_PERSON");
             for (String s : personDto.getAuthorities()) {
@@ -99,6 +100,7 @@ public class PersonImplementation implements PersonService {
         person.setBankNumber(newPerson.getBankNumber());
         person.setEmail(newPerson.getEmail());
         person.setEnabled(newPerson.isEnabled());
+        person.setSex(newPerson.getSex());
         repos.save(person);
         return true;
     }

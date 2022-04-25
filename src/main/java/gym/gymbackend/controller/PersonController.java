@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/persons")
@@ -42,7 +42,6 @@ public class PersonController {
             return new ResponseEntity<>("No person found", HttpStatus.NOT_FOUND);
         }
     }
-
 
     @PostMapping(value = "")
     public ResponseEntity<Object> createPerson(@Valid @RequestBody PersonDto personDto, BindingResult br) {
@@ -104,7 +103,7 @@ public class PersonController {
     }
 
     @DeleteMapping(value = "/{username}/image")
-    public ResponseEntity<Object> deleteUserAuthority( String username) {
+    public ResponseEntity<Object> deleteImage(@PathVariable String username) {
         if (service.deleteImage(username)) {
             return new ResponseEntity<>("Image deleted", HttpStatus.OK);
         }
@@ -121,5 +120,28 @@ public class PersonController {
     public ResponseEntity<Object> updatePerson(@PathVariable String username, @RequestBody Person person) {
         service.updatePerson(username, person);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{username}/authorities")
+    public ResponseEntity<Object> getUserAuthorities(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(service.getAuthorities(username));
+    }
+
+    @PostMapping(value = "/{username}/authorities")
+    public ResponseEntity<Object> addUserAuthority(@PathVariable("username") String username, @RequestBody Map<String, Object> fields) {
+        try {
+            String authorityName = (String) fields.get("authority");
+            service.addAuthority(username, authorityName);
+            return ResponseEntity.noContent().build();
+        }
+        catch (Exception ex) {
+            throw new BadRequestException();
+        }
+    }
+
+    @DeleteMapping(value = "/{username}/authorities/{authority}")
+    public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
+        service.removeAuthority(username, authority);
+        return new ResponseEntity<>("Authority removed", HttpStatus.OK);
     }
 }
