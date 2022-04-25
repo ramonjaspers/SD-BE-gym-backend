@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/membership")
+@RequestMapping(value = "/memberships")
 public class MembershipController {
 
     private final MembershipService service;
@@ -45,7 +45,7 @@ public class MembershipController {
         if (br.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             for (FieldError fe : br.getFieldErrors()) {
-                sb.append(fe.getDefaultMessage());
+                sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage());
                 sb.append("\n");
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);

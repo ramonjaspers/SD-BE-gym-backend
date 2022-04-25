@@ -1,7 +1,7 @@
 -- Default data initialisation
 -- Persons
 INSERT INTO `person` (`username`, `address`, `bank_number`, `credit`, `date_of_birth`, `email`, `name`, `password`, `picture`, `sex`, `enabled`)
-VALUES('employee', 'Teststraat 13', '1234567890', 99999, '1990-12-12 00:00:00.000000', 'employee@gmail.com', 'Employee1', '$2a$10$CHNzTTTrJ8FTumXkILOgE.YvoUBP7oRQ8S/wJUP/vWqS545BsZIRK', NULL, 3, true);
+VALUES('employee', 'Teststraat 13', '1234567890', 99999, '1990-12-12 00:00:00.000000', 'employee@gmail.com', 'Employee1', '$2a$10$CHNzTTTrJ8FTumXkILOgE.YvoUBP7oRQ8S/wJUP/vWqS545BsZIRK', NULL, 2, true);
 INSERT INTO `person` (`username`, `address`, `bank_number`, `credit`, `date_of_birth`, `email`, `name`, `password`, `picture`, `sex`, `enabled`)
 VALUES('admin', NULL, NULL, NULL, NULL, 'admin@admin.nl', 'admin', '$2a$10$zMTUEW1KySqf21THPQwWLO5cx0l27iR/twLNfoSjjTZ7srps7kijK', NULL, NULL, true);
 INSERT INTO `person` (`username`, `address`, `bank_number`, `credit`, `date_of_birth`, `email`, `name`, `password`, `picture`, `sex`, `enabled`)

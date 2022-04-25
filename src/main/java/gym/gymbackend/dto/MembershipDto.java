@@ -4,17 +4,18 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
 public class MembershipDto {
     @NotBlank
     @Size(max = 128)
-    private final String Name;
+    private final String name;
 
-    @NotEmpty
+    @NotNull
     private final Long price;
 
-    @NotEmpty
+    @NotNull
     private final Integer weight;
 }

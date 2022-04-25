@@ -4,15 +4,16 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
 public class WorkoutDto {
-    @NotEmpty
+    @NotNull
     @Size(max = 128)
     private final Long id;
 
-    @NotEmpty
+    @NotNull
     @Size(max = 128)
     private final Long memberId;
 

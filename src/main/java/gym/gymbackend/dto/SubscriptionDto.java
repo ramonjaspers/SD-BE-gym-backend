@@ -3,11 +3,12 @@ package gym.gymbackend.dto;
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
 public class SubscriptionDto {
-    @NotEmpty
+    @NotNull
     @Size(max = 128)
     private final Long id;
 
@@ -15,9 +16,9 @@ public class SubscriptionDto {
     @Size(max = 128)
     private final String name;
 
-    @NotEmpty
+    @NotNull
     private final Long price;
 
-    @NotEmpty
+    @NotNull
     private final Long subscriptionId;
 }

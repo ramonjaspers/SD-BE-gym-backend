@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 public class MuscleDto {
-    @NotEmpty
+    @NotNull
     @Size(max = 128)
     private final Long id;
 
