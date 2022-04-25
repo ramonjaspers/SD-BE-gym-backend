@@ -57,10 +57,14 @@ public class PersonImplementation implements PersonService {
             Person person = new Person();
             person.setUsername(personDto.getUsername());
             person.setPassword(passwordEncoder.encode(personDto.getPassword()));
-            person.setEmail(personDto.getEmail());
             person.setName(personDto.getName());
-            person.setEnabled(true);
+            person.setAddress(personDto.getAddress());
+            person.setDateOfBirth(personDto.getDateOfBirth());
+            person.setCredit(personDto.getCredit());
             person.setSex(personDto.getSex());
+            person.setEmail(personDto.getEmail());
+            person.setBankNumber(personDto.getBankNumber());
+            person.setEnabled(true);
             // Set default minimum authority
             person.addAuthority("ROLE_PERSON");
             for (String s : personDto.getAuthorities()) {
@@ -101,6 +105,9 @@ public class PersonImplementation implements PersonService {
         person.setEmail(newPerson.getEmail());
         person.setEnabled(newPerson.isEnabled());
         person.setSex(newPerson.getSex());
+        person.setName(newPerson.getName());
+        person.setDateOfBirth(newPerson.getDateOfBirth());
+        person.setCredit(newPerson.getCredit());
         repos.save(person);
         return true;
     }
