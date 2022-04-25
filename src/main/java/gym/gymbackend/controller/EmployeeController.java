@@ -75,7 +75,7 @@ public class EmployeeController {
     }
 
     @PatchMapping(value = "/{username}/salary")
-    public ResponseEntity<Object> updateSalary(@PathVariable("username") String username, @RequestBody Integer salary) {
+    public ResponseEntity<Object> updateSalary(@PathVariable("username") String username, @RequestBody Long salary) {
         service.updateSalary(username, salary);
         return new ResponseEntity<>(username + " salary updated", HttpStatus.OK);
     }

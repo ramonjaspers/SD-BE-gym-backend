@@ -8,17 +8,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class WorkoutDto {
-    @NotNull
-    @Size(max = 128)
-    private final Long id;
-
-    @NotNull
-    @Size(max = 128)
-    private final Long memberId;
-
+public class MembershipDto {
     @NotBlank
     @Size(max = 128)
     private final String name;
 
+    @NotNull
+    private final Long price;
+
+    @NotNull
+    private final Integer weight;
 }

@@ -27,7 +27,7 @@ public class PersonDto {
     @Past(message = "Date must be in the past!")
     public Date dateOfBirth;
     @Max(value = 10000, message = "Credit too high, check the credit value or contact the administrator")
-    public Double credit;
+    public Long credit;
     @NotNull
     public Sex sex;
     @JsonSerialize

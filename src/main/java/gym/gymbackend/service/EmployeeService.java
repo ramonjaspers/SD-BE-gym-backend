@@ -11,5 +11,5 @@ public interface EmployeeService {
     void createEmployee(String username, EmployeeDto employeeDto);
     void deleteEmployee(String username);
     void updateEmployee(String username, EmployeeDto employeeDto);
-    void updateSalary(String username, Integer salary);
+    void updateSalary(String username, Long salary);
 }
