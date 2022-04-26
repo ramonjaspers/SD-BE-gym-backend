@@ -62,7 +62,7 @@ public class MembershipController {
             service.deleteMembership(name);
             return new ResponseEntity<>(name + " removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed removing membership, check if there are subscriptions connected to this value and remove these first", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed removing membership, check if there are subscriptions connected to this membership and remove these first", HttpStatus.BAD_REQUEST);
         }
     }
 

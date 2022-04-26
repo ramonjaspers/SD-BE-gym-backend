@@ -72,7 +72,7 @@ public class FacilityController {
             service.deleteFacility(id);
             return new ResponseEntity<>(id + " removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed removing facility, check if there are activities connected to this value and remove these first", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed removing facility, check if there are activities connected to this facility and remove these first", HttpStatus.BAD_REQUEST);
         }
     }
 

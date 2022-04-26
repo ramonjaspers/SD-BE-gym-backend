@@ -68,7 +68,7 @@ public class PersonController {
             service.deletePerson(username);
             return new ResponseEntity<>("Person removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Person does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Failed removing person, check if there are subscriptions connected to this person and remove these first", HttpStatus.BAD_REQUEST);
         }
     }
 

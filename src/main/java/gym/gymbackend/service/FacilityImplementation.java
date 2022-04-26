@@ -36,7 +36,7 @@ public class FacilityImplementation implements FacilityService {
         if (membership.isEmpty()) {
             throw new RecordNotFoundException("Membership name does not exists");
         }
-        return repos.findFacilitiesByMembership(membership.get());
+        return repos.findFacilitiesByMinimumMembership(membership.get());
     }
 
 

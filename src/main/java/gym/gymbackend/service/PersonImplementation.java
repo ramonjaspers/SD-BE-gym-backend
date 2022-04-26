@@ -83,7 +83,11 @@ public class PersonImplementation implements PersonService {
 
     public Boolean deletePerson(String username) {
         if (personExists(username)) {
-            repos.deleteById(username);
+            try {
+                repos.deleteById(username);
+            } catch (Exception ex) {
+                throw new BadRequestException();
+            }
             return true;
         } else {
             throw new PersonNotFoundException(username);

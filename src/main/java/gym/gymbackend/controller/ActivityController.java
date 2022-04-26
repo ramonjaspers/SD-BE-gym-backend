@@ -67,14 +67,14 @@ public class ActivityController {
             service.deleteActivity(activityName);
             return new ResponseEntity<>("Activity removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed removing activity, check if there are Exercise muscles connected to this value and remove these first", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed removing activity, check if there are Exercise muscles connected to this activity and remove these first", HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping(value = "/{activityName}")
     public ResponseEntity<Object> updateActivity(@PathVariable String activityName, @Valid @RequestBody ActivityDto activityDto) {
         service.updateActivity(activityName, activityDto);
-        return new ResponseEntity<>(activityName + " fields updated", HttpStatus.OK);
+        return new ResponseEntity<>( " fields updated", HttpStatus.OK);
     }
 
 }

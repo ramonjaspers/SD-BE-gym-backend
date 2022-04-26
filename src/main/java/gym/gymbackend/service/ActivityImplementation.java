@@ -75,7 +75,7 @@ public class ActivityImplementation implements ActivityService {
             throw new BadRequestException("Given facility does not exist");
         }
         Activity activity = new Activity();
-        activity.setName(activity.getName());
+        activity.setName(activityDto.getName());
         activity.setFacility(facility.get());
         repos.save(activity);
     }
