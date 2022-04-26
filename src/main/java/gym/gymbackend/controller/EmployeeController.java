@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/employees")
 public class EmployeeController {
-
     private final EmployeeService service;
 
     public EmployeeController(EmployeeService service) {
@@ -38,7 +37,6 @@ public class EmployeeController {
             return new ResponseEntity<>("No employee found", HttpStatus.NOT_FOUND);
         }
     }
-
 
     @PostMapping(value = "/{username}")
     public ResponseEntity<Object> createEmployee(@PathVariable String username, @Valid @RequestBody EmployeeDto employee, BindingResult br) {

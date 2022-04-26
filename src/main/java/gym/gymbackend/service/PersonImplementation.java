@@ -21,8 +21,8 @@ import java.util.Set;
 @Service
 public class PersonImplementation implements PersonService {
 
-    PasswordEncoder passwordEncoder;
     private final PersonRepository repos;
+    PasswordEncoder passwordEncoder;
 
     public PersonImplementation(PersonRepository repos, PasswordEncoder passwordEncoder) {
         this.repos = repos;

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/authenticate")
 public class AuthenticationController {
-
     PersonAuthenticateService personAuthenticateService;
 
     @Autowired

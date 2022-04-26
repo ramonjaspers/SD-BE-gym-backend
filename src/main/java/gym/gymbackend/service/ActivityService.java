@@ -6,13 +6,44 @@ import gym.gymbackend.model.Activity;
 import java.util.List;
 
 public interface ActivityService {
+    /**
+     * get activities
+     *
+     * @return {@link List}
+     * @see List
+     * @see Activity
+     */
     List<Activity> getActivities();
 
+    /**
+     * get activity by name
+     *
+     * @param name name
+     * @return {@link Activity}
+     * @see Activity
+     */
     Activity getActivity(String name);
 
+    /**
+     * create activity
+     *
+     * @param activityDto activityDto
+     */
     void createActivity(ActivityDto activityDto);
 
+    /**
+     * delete activity by name
+     *
+     * @param name name
+     */
     void deleteActivity(String name);
 
+
+    /**
+     * update activity by name
+     *
+     * @param name        name
+     * @param activityDto activityDto
+     */
     void updateActivity(String name, ActivityDto activityDto);
 }
