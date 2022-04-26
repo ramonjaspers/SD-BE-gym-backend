@@ -13,7 +13,7 @@ public class Membership {
     private Integer weight;
 
     // One subscription has many facilities to access
-    @OneToMany(mappedBy = "membership")
+    @OneToMany(mappedBy = "minimumMembership")
     @JsonIgnore
     List<Facility> facilities;
 

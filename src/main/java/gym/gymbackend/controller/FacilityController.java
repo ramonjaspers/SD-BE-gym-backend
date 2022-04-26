@@ -34,7 +34,7 @@ public class FacilityController {
         try {
             Facility facilities = service.getFacility(id);
             return new ResponseEntity<>(facilities, HttpStatus.OK);
-        } catch (Error e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("No facility found", HttpStatus.NOT_FOUND);
         }
     }
@@ -44,7 +44,7 @@ public class FacilityController {
         try {
             List<Facility> facilities = service.getFacilitiesByMembership(membership);
             return new ResponseEntity<>(facilities, HttpStatus.OK);
-        } catch (Error e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("No facility found", HttpStatus.NOT_FOUND);
         }
     }
@@ -69,11 +69,10 @@ public class FacilityController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteFacility(@PathVariable Long id) {
         try {
-            service.getFacility(id);
             service.deleteFacility(id);
             return new ResponseEntity<>(id + " removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Facility does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Failed removing facility, check if there are activities connected to this value and remove these first", HttpStatus.BAD_REQUEST);
         }
     }
 

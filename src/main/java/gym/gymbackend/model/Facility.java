@@ -14,7 +14,11 @@ public class Facility {
     // Facilities have one subscription level
     @ManyToOne
     @JoinColumn(name = "minimum_membership", nullable = false)
-    Membership membership;
+    Membership minimumMembership;
+
+    @ManyToOne
+    @JsonIgnore
+    Activity activity;
 
     public Long getId() {
         return id;
@@ -32,11 +36,11 @@ public class Facility {
         this.name = name;
     }
 
-    public Membership getMembership() {
-        return membership;
+    public Membership getMinimumMembership() {
+        return minimumMembership;
     }
 
-    public void setMembership(Membership membership) {
-        this.membership = membership;
+    public void setMinimumMembership(Membership membership) {
+        this.minimumMembership = membership;
     }
 }

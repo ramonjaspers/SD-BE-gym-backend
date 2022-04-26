@@ -9,8 +9,7 @@ VALUES('person', 'Teststraat 11', '1234567892', 400, '1996-12-12 00:00:00.000000
 
 -- Employee
 INSERT INTO `employee` (`date_of_employment`, `date_till_employment`, `func`, `salary`, `work_week_duration`, `username`)
-VALUES
-    ('2022-03-24 21:42:12.000000', '2055-04-24 21:42:12.000000', 'schoonmaker', 5000, 6, 'employee');
+VALUES('2022-03-24 21:42:12.000000', '2055-04-24 21:42:12.000000', 'schoonmaker', 5000, 6, 'employee');
 
 -- Memberships
 INSERT INTO `membership` (`weight`, `price`, `name`) VALUES (0, 0, 'none');
@@ -31,7 +30,36 @@ INSERT INTO authority (username, authority) VALUES ('admin', 'ROLE_ADMIN');
 
 -- Facilities
 INSERT INTO `facility` (`id`, `name`, `minimum_membership`)
-VALUES (1, 'zonnenbank', 'gold');
-INSERT INTO `facility` (`id`, `name`, `minimum_membership`)
-VALUES(2, 'gewichten', 'bronze');
+VALUES
+    (1, 'squat-rek', 'bronze'),
+    (2, 'squash-baan', 'silver'),
+    (3, 'gewichten', 'bronze'),
+    (4, 'tennis-baan', 'silver'),
+    (5, 'zonnenbank', 'gold'),
+    (6, 'sauna', 'gold');
+
+-- Activities
+INSERT INTO `activity` (`name`, `facility_id`)
+VALUES
+    ('lunges', 1),
+    ('military-press', 1),
+    ('squats', 1),
+    ('tenissen', 4),
+    ('zonnen', 5);
+
+-- exercise muscles
+INSERT INTO `exercise_muscle` (`id`, `muscle`, `activity`)
+VALUES
+    (1, 9, 'lunges'),
+    (2, 7, 'lunges'),
+    (3, 3, 'lunges'),
+    (4, 1, 'military-press'),
+    (5, 5, 'military-press'),
+    (6, 9 ,'squats'),
+    (7, 7, 'squats'),
+    (8, 3, 'squats'),
+    (9, 12, 'tenissen');
+
+
+
 

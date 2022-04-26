@@ -21,7 +21,7 @@ public class Workout {
     Person person;
 
     @OneToMany(mappedBy="id")
-    List<PlannedExercise> plannedExerciseList = new ArrayList<>();
+    List<PlannedActivity> plannedActivities;
 
     public Long getId() {
         return id;
@@ -45,5 +45,13 @@ public class Workout {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public List<PlannedActivity> getPlannedActivities() {
+        return plannedActivities;
+    }
+
+    public void setPlannedActivities(List<PlannedActivity> plannedActivities) {
+        this.plannedActivities = plannedActivities;
     }
 }
