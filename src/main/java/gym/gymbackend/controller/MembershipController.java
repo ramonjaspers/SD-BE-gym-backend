@@ -25,8 +25,8 @@ public class MembershipController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<Membership>> getMemberships() {
-        List<Membership> employees = service.getMemberships();
-        return new ResponseEntity<>(employees, HttpStatus.OK);
+        List<Membership> memberships = service.getMemberships();
+        return new ResponseEntity<>(memberships, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{name}")

@@ -28,3 +28,10 @@ VALUES ('person', '2023-04-25 17:36:12.000000', '2022-04-25 17:39:24.000000', 'b
 INSERT INTO authority (username, authority) VALUES ('employee', 'ROLE_EMPLOYEE');
 INSERT INTO authority (username, authority) VALUES ('person', 'ROLE_PERSON');
 INSERT INTO authority (username, authority) VALUES ('admin', 'ROLE_ADMIN');
+
+-- Facilities
+INSERT INTO `facility` (`id`, `name`, `minimum_membership`)
+VALUES (1, 'zonnenbank', 'gold');
+INSERT INTO `facility` (`id`, `name`, `minimum_membership`)
+VALUES(2, 'gewichten', 'bronze');
+

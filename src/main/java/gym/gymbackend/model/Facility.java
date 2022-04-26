@@ -7,16 +7,22 @@ import javax.persistence.*;
 @Entity
 public class Facility {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
     // Facilities have one subscription level
     @ManyToOne
-    @JoinColumn(name = "subscription_id", nullable = false)
-    @JsonIgnore
-    Subscription subscription;
+    @JoinColumn(name = "minimum_membership", nullable = false)
+    Membership membership;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -26,11 +32,11 @@ public class Facility {
         this.name = name;
     }
 
-    public Subscription getMinimumSubscription() {
-        return subscription;
+    public Membership getMembership() {
+        return membership;
     }
 
-    public void setMinimumSubscription(Subscription minimumSubscription) {
-        subscription = minimumSubscription;
+    public void setMembership(Membership membership) {
+        this.membership = membership;
     }
 }
