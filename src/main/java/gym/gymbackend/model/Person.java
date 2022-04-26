@@ -1,6 +1,5 @@
 package gym.gymbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import gym.gymbackend.enums.Sex;
 
 import javax.persistence.*;

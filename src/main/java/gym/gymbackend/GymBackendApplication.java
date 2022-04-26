@@ -8,6 +8,7 @@ public class GymBackendApplication {
 
     /**
      * immutable public static main
+     *
      * @param args
      */
     public static void main(String[] args) {

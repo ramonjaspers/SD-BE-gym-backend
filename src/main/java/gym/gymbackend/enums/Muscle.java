@@ -12,5 +12,6 @@ public enum Muscle {
     TRAPEZIUS,
     GLUTEUS,
     GASTRONECEMIUS,
-    SERRATUS
+    SERRATUS,
+    LUNGS
 }

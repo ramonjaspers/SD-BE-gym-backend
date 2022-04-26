@@ -5,23 +5,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-public class PlannedExercise {
+public class PlannedActivity {
+    // One or many planned exercises have one workout
+    @ManyToOne
+    @JoinColumn(name = "workout_id", nullable = false)
+    @JsonIgnore
+    Workout workout;
+    // One or many planned activity contains one activity
+    @ManyToOne
+    @JoinColumn(name = "activity", nullable = false)
+    Activity exercise;
     @Id
     @GeneratedValue
     private Long id;
-
-    private String name;
-
-    // One or many planned exercises have one workout
-    @ManyToOne
-    @JoinColumn(name="workout_id", nullable=false)
-    @JsonIgnore
-    Workout workout;
-
-    // One or many planned exercise contains one exercise
-    @ManyToOne
-    @JoinColumn(name="exercise_id", nullable=false)
-    Exercise exercise;
 
     public Long getId() {
         return id;
@@ -29,14 +25,6 @@ public class PlannedExercise {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Workout getWorkout() {
@@ -47,11 +35,11 @@ public class PlannedExercise {
         this.workout = workout;
     }
 
-    public Exercise getExercise() {
+    public Activity getExercise() {
         return exercise;
     }
 
-    public void setExercise(Exercise exercises) {
-        this.exercise = exercises;
+    public void setExercise(Activity exercise) {
+        this.exercise = exercise;
     }
 }

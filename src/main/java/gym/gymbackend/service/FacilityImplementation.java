@@ -36,7 +36,7 @@ public class FacilityImplementation implements FacilityService {
         if (membership.isEmpty()) {
             throw new RecordNotFoundException("Membership name does not exists");
         }
-        return repos.findFacilitiesByMembership(membership.get());
+        return repos.findFacilitiesByMinimumMembership(membership.get());
     }
 
 
@@ -57,7 +57,7 @@ public class FacilityImplementation implements FacilityService {
         try {
             Facility facility = new Facility();
             facility.setName(facilityDto.getName());
-            facility.setMembership(membership.get());
+            facility.setMinimumMembership(membership.get());
             repos.save(facility);
         } catch (Exception ex) {
             throw new BadRequestException("Cannot create facility. " + ex.getMessage());
@@ -84,7 +84,7 @@ public class FacilityImplementation implements FacilityService {
         }
         Facility facility = repos.findById(id).get();
         facility.setName(facilityDto.getName());
-        facility.setMembership(membership.get());
+        facility.setMinimumMembership(membership.get());
         repos.save(facility);
     }
 }

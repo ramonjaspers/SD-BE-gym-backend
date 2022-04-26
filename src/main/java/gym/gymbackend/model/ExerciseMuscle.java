@@ -1,29 +1,26 @@
 package gym.gymbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import gym.gymbackend.enums.Muscle;
 
 import javax.persistence.*;
 
 @Entity
 public class ExerciseMuscle {
+    // Multiple muscles can belong to mutliple exercises
+    @ManyToOne
+    @JoinColumn(name = "activity")
+    Activity activity;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Muscle muscle;
 
-    // Multiple muscles can belong to a single exercise
-    @ManyToOne
-    @JoinColumn(name = "exercise_id")
-    @JsonIgnore
-    Exercise exercise;
-
-    public Exercise getExercise() {
-        return exercise;
+    public Long getId() {
+        return id;
     }
 
-    public void setExercise(Exercise exercise) {
-        this.exercise = exercise;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Muscle getMuscle() {
@@ -34,11 +31,11 @@ public class ExerciseMuscle {
         this.muscle = muscle;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public Long getId() {
-        return id;
+    public void setActivity(Activity activities) {
+        this.activity = activities;
     }
 }

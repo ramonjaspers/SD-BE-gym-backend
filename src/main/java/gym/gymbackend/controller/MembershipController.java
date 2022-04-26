@@ -34,7 +34,7 @@ public class MembershipController {
         try {
             Membership membership = service.getMembership(name);
             return new ResponseEntity<>(membership, HttpStatus.OK);
-        } catch (Error e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("No membership found", HttpStatus.NOT_FOUND);
         }
     }
@@ -59,11 +59,10 @@ public class MembershipController {
     @DeleteMapping(value = "/{name}")
     public ResponseEntity<Object> deleteMembership(@PathVariable String name) {
         try {
-            service.getMembership(name);
             service.deleteMembership(name);
             return new ResponseEntity<>(name + " removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Membership does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Failed removing membership, check if there are subscriptions connected to this membership and remove these first", HttpStatus.BAD_REQUEST);
         }
     }
 

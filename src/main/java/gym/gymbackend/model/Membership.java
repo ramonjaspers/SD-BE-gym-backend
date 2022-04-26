@@ -2,20 +2,21 @@ package gym.gymbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
 public class Membership {
+    // One subscription has many facilities to access
+    @OneToMany(mappedBy = "minimumMembership")
+    @JsonIgnore
+    List<Facility> facilities;
     @Id
     private String name;
     private Long price;
     private Integer weight;
-
-    // One subscription has many facilities to access
-    @OneToMany(mappedBy = "membership")
-    @JsonIgnore
-    List<Facility> facilities;
 
     public String getName() {
         return name;

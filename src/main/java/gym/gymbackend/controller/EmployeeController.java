@@ -2,7 +2,6 @@ package gym.gymbackend.controller;
 
 import gym.gymbackend.dto.EmployeeDto;
 import gym.gymbackend.model.Employee;
-import gym.gymbackend.model.Person;
 import gym.gymbackend.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,7 @@ public class EmployeeController {
         try {
             Employee employee = service.getEmployee(username);
             return new ResponseEntity<>(employee, HttpStatus.OK);
-        } catch (Error e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("No employee found", HttpStatus.NOT_FOUND);
         }
     }
@@ -60,7 +59,6 @@ public class EmployeeController {
     @DeleteMapping(value = "/{username}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable String username) {
         try {
-            service.getEmployee(username);
             service.deleteEmployee(username);
             return new ResponseEntity<>(username + " removed", HttpStatus.OK);
         } catch (Exception e) {

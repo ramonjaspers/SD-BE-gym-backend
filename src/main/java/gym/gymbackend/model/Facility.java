@@ -6,15 +6,17 @@ import javax.persistence.*;
 
 @Entity
 public class Facility {
+    // Facilities have one subscription level
+    @ManyToOne
+    @JoinColumn(name = "minimum_membership", nullable = false)
+    Membership minimumMembership;
+    @ManyToOne
+    @JsonIgnore
+    Activity activity;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    // Facilities have one subscription level
-    @ManyToOne
-    @JoinColumn(name = "minimum_membership", nullable = false)
-    Membership membership;
 
     public Long getId() {
         return id;
@@ -32,11 +34,11 @@ public class Facility {
         this.name = name;
     }
 
-    public Membership getMembership() {
-        return membership;
+    public Membership getMinimumMembership() {
+        return minimumMembership;
     }
 
-    public void setMembership(Membership membership) {
-        this.membership = membership;
+    public void setMinimumMembership(Membership membership) {
+        this.minimumMembership = membership;
     }
 }

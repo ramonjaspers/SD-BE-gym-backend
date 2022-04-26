@@ -34,7 +34,7 @@ public class SubscriptionController {
         try {
             Subscription subscription = service.getSubscription(username);
             return new ResponseEntity<>(subscription, HttpStatus.OK);
-        } catch (Error e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("No subscription found", HttpStatus.NOT_FOUND);
         }
     }

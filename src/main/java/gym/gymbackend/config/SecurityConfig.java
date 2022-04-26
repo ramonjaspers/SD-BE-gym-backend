@@ -17,15 +17,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.sql.DataSource;
 
-import static org.springframework.http.HttpMethod.*;
+import static org.springframework.http.HttpMethod.PATCH;
+import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private DataSource dataSource;
-    private JwtRequestFilter jwtRequestFilter;
+    private final DataSource dataSource;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     SecurityConfig(DataSource dataSource, JwtRequestFilter jwtRequestFilter) {
@@ -33,16 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("SELECT username, password, enabled FROM person WHERE username=?")
                 .authoritiesByUsernameQuery("SELECT username, authority FROM authority AS a WHERE username=?");
-    }
-
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -65,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/employee/**").hasAnyRole("ADMIN")
-                .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
+                .antMatchers(PATCH, "/users/{^[\\w]$}/password").authenticated()
                 .antMatchers("/person/**").hasAnyRole("PERSON", "EMPLOYEE", "ADMIN")
                 .antMatchers(POST, "/authenticate").permitAll()
                 .anyRequest().permitAll()

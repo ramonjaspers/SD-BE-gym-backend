@@ -38,7 +38,7 @@ public class PersonController {
         try {
             Person person = service.getPerson(username);
             return new ResponseEntity<>(person, HttpStatus.OK);
-        } catch (Error e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("No person found", HttpStatus.NOT_FOUND);
         }
     }
@@ -65,11 +65,10 @@ public class PersonController {
     @DeleteMapping(value = "{username}")
     public ResponseEntity<Object> deletePerson(@PathVariable String username) {
         try {
-            service.getPerson(username);
             service.deletePerson(username);
             return new ResponseEntity<>("Person removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Person does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Failed removing person, check if there are subscriptions connected to this person and remove these first", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -133,15 +132,18 @@ public class PersonController {
             String authorityName = (String) fields.get("authority");
             service.addAuthority(username, authorityName);
             return ResponseEntity.noContent().build();
-        }
-        catch (Exception ex) {
-            throw new BadRequestException();
+        } catch (Exception e) {
+            throw new BadRequestException("Cannot create authority. " + e.getMessage());
         }
     }
 
     @DeleteMapping(value = "/{username}/authorities/{authority}")
     public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
-        service.removeAuthority(username, authority);
-        return new ResponseEntity<>("Authority removed", HttpStatus.OK);
+        try {
+            service.removeAuthority(username, authority);
+            return new ResponseEntity<>("Authority removed", HttpStatus.OK);
+        } catch (Exception e) {
+            throw new BadRequestException("Cannot delete authority. " + e.getMessage());
+        }
     }
 }

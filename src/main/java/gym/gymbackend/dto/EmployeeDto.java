@@ -1,6 +1,5 @@
 package gym.gymbackend.dto;
 
-import gym.gymbackend.model.Person;
 import lombok.Data;
 
 import javax.validation.constraints.*;
