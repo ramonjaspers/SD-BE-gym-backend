@@ -21,8 +21,8 @@ import java.util.Set;
 @Service
 public class PersonImplementation implements PersonService {
 
-    private PersonRepository repos;
     PasswordEncoder passwordEncoder;
+    private final PersonRepository repos;
 
     public PersonImplementation(PersonRepository repos, PasswordEncoder passwordEncoder) {
         this.repos = repos;
@@ -30,7 +30,6 @@ public class PersonImplementation implements PersonService {
     }
 
     /**
-     *
      * @param username
      * @return {Boolean} isPresent()
      */

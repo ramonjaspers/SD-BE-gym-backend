@@ -3,25 +3,21 @@ package gym.gymbackend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Workout {
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String name;
-
     // Multiple workouts can belong to a single person
     @ManyToOne
     @JoinColumn(name = "username", nullable = false)
     @JsonIgnore
     Person person;
-
-    @OneToMany(mappedBy="id")
+    @OneToMany(mappedBy = "id")
     List<PlannedActivity> plannedActivities;
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
 
     public Long getId() {
         return id;

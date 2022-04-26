@@ -2,7 +2,6 @@ package gym.gymbackend.controller;
 
 import gym.gymbackend.dto.EmployeeDto;
 import gym.gymbackend.model.Employee;
-import gym.gymbackend.model.Person;
 import gym.gymbackend.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

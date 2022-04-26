@@ -8,6 +8,7 @@ public class RandomStringGenerator {
 
     /**
      * Random string generator thanks to https://www.baeldung.com/java-random-string#java8-alphanumeric
+     *
      * @param length
      * @return
      */

@@ -1,12 +1,8 @@
 package gym.gymbackend.controller;
 
 import gym.gymbackend.dto.ActivityDto;
-import gym.gymbackend.dto.ExerciseMuscleDto;
-import gym.gymbackend.enums.Muscle;
 import gym.gymbackend.model.Activity;
-import gym.gymbackend.model.ExerciseMuscle;
 import gym.gymbackend.service.ActivityService;
-import gym.gymbackend.service.ExerciseMuscleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

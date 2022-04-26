@@ -3,4 +3,5 @@ package gym.gymbackend.repository;
 import gym.gymbackend.model.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ActivityRepository extends JpaRepository<Activity, String> {}
+public interface ActivityRepository extends JpaRepository<Activity, String> {
+}

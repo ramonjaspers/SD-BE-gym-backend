@@ -132,8 +132,7 @@ public class PersonController {
             String authorityName = (String) fields.get("authority");
             service.addAuthority(username, authorityName);
             return ResponseEntity.noContent().build();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BadRequestException("Cannot create authority. " + e.getMessage());
         }
     }
@@ -143,7 +142,7 @@ public class PersonController {
         try {
             service.removeAuthority(username, authority);
             return new ResponseEntity<>("Authority removed", HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BadRequestException("Cannot delete authority. " + e.getMessage());
         }
     }

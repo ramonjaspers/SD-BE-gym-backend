@@ -14,13 +14,11 @@ import org.springframework.stereotype.Service;
 public class PersonAuthenticateService {
 
     @Autowired
+    JwtUtil jwtUtl;
+    @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private CustomUserDetailsService userDetailsService;
-
-    @Autowired
-    JwtUtil jwtUtl;
 
     public AuthenticationResponse authenticatePerson(AuthenticationRequest authenticationRequest) {
         try {

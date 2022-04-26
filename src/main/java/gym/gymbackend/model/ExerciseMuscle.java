@@ -6,15 +6,14 @@ import javax.persistence.*;
 
 @Entity
 public class ExerciseMuscle {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Muscle muscle;
-
     // Multiple muscles can belong to mutliple exercises
     @ManyToOne
     @JoinColumn(name = "activity")
     Activity activity;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Muscle muscle;
 
     public Long getId() {
         return id;

@@ -6,19 +6,17 @@ import javax.persistence.*;
 
 @Entity
 public class Facility {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-
     // Facilities have one subscription level
     @ManyToOne
     @JoinColumn(name = "minimum_membership", nullable = false)
     Membership minimumMembership;
-
     @ManyToOne
     @JsonIgnore
     Activity activity;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
     public Long getId() {
         return id;

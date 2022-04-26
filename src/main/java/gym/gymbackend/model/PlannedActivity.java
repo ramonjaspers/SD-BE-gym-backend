@@ -6,20 +6,18 @@ import javax.persistence.*;
 
 @Entity
 public class PlannedActivity {
+    // One or many planned exercises have one workout
+    @ManyToOne
+    @JoinColumn(name = "workout_id", nullable = false)
+    @JsonIgnore
+    Workout workout;
+    // One or many planned activity contains one activity
+    @ManyToOne
+    @JoinColumn(name = "activity", nullable = false)
+    Activity exercise;
     @Id
     @GeneratedValue
     private Long id;
-
-    // One or many planned exercises have one workout
-    @ManyToOne
-    @JoinColumn(name="workout_id", nullable=false)
-    @JsonIgnore
-    Workout workout;
-
-    // One or many planned activity contains one activity
-    @ManyToOne
-    @JoinColumn(name="activity", nullable=false)
-    Activity exercise;
 
     public Long getId() {
         return id;
