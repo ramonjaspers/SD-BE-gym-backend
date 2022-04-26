@@ -23,6 +23,7 @@ public class Subscription {
     @JoinColumn(name = "membership")
     private Membership membership;
 
+
     public String getUsername() {
         return username;
     }
