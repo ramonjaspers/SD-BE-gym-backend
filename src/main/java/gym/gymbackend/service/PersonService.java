@@ -12,8 +12,6 @@ public interface PersonService {
      * get persons
      *
      * @return {@link List}
-     * @see List
-     * @see Person
      */
     List<Person> getPersons();
 
@@ -22,7 +20,6 @@ public interface PersonService {
      *
      * @param username username
      * @return {@link Person}
-     * @see Person
      */
     Person getPerson(String username);
 
@@ -31,7 +28,6 @@ public interface PersonService {
      *
      * @param personDto personDto
      * @return {@link String}
-     * @see String
      */
     String createPerson(PersonDto personDto);
 
@@ -40,7 +36,6 @@ public interface PersonService {
      *
      * @param username username
      * @return {@link Boolean}
-     * @see Boolean
      */
     Boolean deletePerson(String username);
 
@@ -50,7 +45,6 @@ public interface PersonService {
      * @param username username
      * @param person   person
      * @return {@link Boolean}
-     * @see Boolean
      */
     Boolean updatePerson(String username, Person person);
 
@@ -59,7 +53,6 @@ public interface PersonService {
      *
      * @param username username
      * @return {@link Boolean}
-     * @see Boolean
      */
     Boolean deleteImage(String username);
 
@@ -76,8 +69,6 @@ public interface PersonService {
      *
      * @param username username
      * @return {@link Set}
-     * @see Set
-     * @see Authority
      */
     Set<Authority> getAuthorities(String username);
 

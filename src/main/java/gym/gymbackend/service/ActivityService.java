@@ -10,8 +10,6 @@ public interface ActivityService {
      * get activities
      *
      * @return {@link List}
-     * @see List
-     * @see Activity
      */
     List<Activity> getActivities();
 
@@ -20,7 +18,6 @@ public interface ActivityService {
      *
      * @param name name
      * @return {@link Activity}
-     * @see Activity
      */
     Activity getActivity(String name);
 

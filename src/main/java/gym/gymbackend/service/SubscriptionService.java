@@ -10,8 +10,6 @@ public interface SubscriptionService {
      * get subscriptions
      *
      * @return {@link List}
-     * @see List
-     * @see Subscription
      */
     List<Subscription> getSubscriptions();
 
@@ -20,7 +18,6 @@ public interface SubscriptionService {
      *
      * @param username username
      * @return {@link Subscription}
-     * @see Subscription
      */
     Subscription getSubscription(String username);
 

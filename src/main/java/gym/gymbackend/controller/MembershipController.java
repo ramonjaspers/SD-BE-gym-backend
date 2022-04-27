@@ -50,9 +50,12 @@ public class MembershipController {
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-
-        service.createMembership(membership);
-        return new ResponseEntity<>("Membership created", HttpStatus.CREATED);
+        try {
+            service.createMembership(membership);
+            return new ResponseEntity<>("Membership created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 

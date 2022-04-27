@@ -61,5 +61,16 @@ VALUES
     (9, 12, 'tenissen');
 
 
+-- workout
+INSERT INTO `workout` (`id`, `name`, `username`)
+VALUES (1, 'relaxing n stuff', 'admin');
+
+-- planned activities
+INSERT INTO `planned_activity` (`activity`, `workout_id`)
+VALUES
+    ('zonnen', 1),
+    ('tenissen', 1),
+    ('military-press', 1);
+
 
 

@@ -12,10 +12,11 @@ public class Workout {
     @JoinColumn(name = "username", nullable = false)
     @JsonIgnore
     Person person;
-    @OneToMany(mappedBy = "id")
+    // one workout has one or many planned activities
+    @OneToMany(mappedBy = "workout")
     List<PlannedActivity> plannedActivities;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 

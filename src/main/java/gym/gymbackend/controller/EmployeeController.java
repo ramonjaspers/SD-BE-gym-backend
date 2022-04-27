@@ -48,9 +48,12 @@ public class EmployeeController {
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-
-        service.createEmployee(username, employee);
-        return new ResponseEntity<>("Employee created", HttpStatus.CREATED);
+        try {
+            service.createEmployee(username, employee);
+            return new ResponseEntity<>("Employee created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 

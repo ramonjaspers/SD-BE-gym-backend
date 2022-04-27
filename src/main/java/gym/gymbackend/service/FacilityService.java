@@ -10,8 +10,6 @@ public interface FacilityService {
      * get facilities
      *
      * @return {@link List}
-     * @see List
-     * @see Facility
      */
     List<Facility> getFacilities();
 
@@ -20,7 +18,6 @@ public interface FacilityService {
      *
      * @param id id
      * @return {@link Facility}
-     * @see Facility
      */
     Facility getFacility(Long id);
 
@@ -29,8 +26,6 @@ public interface FacilityService {
      *
      * @param membership membership
      * @return {@link List}
-     * @see List
-     * @see Facility
      */
     List<Facility> getFacilitiesByMembership(String membership);
 
