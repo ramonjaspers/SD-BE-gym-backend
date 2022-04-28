@@ -5,27 +5,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
+@IdClass(PlannedActivityKey.class)
 public class PlannedActivity {
     // One or many planned exercises have one workout
     @ManyToOne
     @JoinColumn(name = "workout_id", nullable = false)
     @JsonIgnore
+    @Id
     Workout workout;
     // One or many planned activity contains one activity
     @ManyToOne
     @JoinColumn(name = "activity", nullable = false)
-    Activity exercise;
     @Id
-    @GeneratedValue
-    private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    Activity activity;
 
     public Workout getWorkout() {
         return workout;
@@ -35,11 +27,11 @@ public class PlannedActivity {
         this.workout = workout;
     }
 
-    public Activity getExercise() {
-        return exercise;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setExercise(Activity exercise) {
-        this.exercise = exercise;
+    public void setActivity(Activity exercise) {
+        this.activity = exercise;
     }
 }

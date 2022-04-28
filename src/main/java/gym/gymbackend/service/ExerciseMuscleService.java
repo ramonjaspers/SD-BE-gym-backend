@@ -11,8 +11,6 @@ public interface ExerciseMuscleService {
      * get exercise muscles
      *
      * @return {@link List}
-     * @see List
-     * @see ExerciseMuscle
      */
     List<ExerciseMuscle> getExerciseMuscles();
 
@@ -21,7 +19,6 @@ public interface ExerciseMuscleService {
      *
      * @param id id
      * @return {@link ExerciseMuscle}
-     * @see ExerciseMuscle
      */
     ExerciseMuscle getExerciseMuscle(Long id);
 
@@ -30,8 +27,6 @@ public interface ExerciseMuscleService {
      *
      * @param activityName activityName
      * @return {@link List}
-     * @see List
-     * @see ExerciseMuscle
      */
     List<ExerciseMuscle> getExerciseMuscleByActivity(String activityName);
 

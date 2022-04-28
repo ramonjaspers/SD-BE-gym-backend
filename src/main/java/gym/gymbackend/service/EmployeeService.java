@@ -11,7 +11,6 @@ public interface EmployeeService {
      *
      * @param username username
      * @return {@link Employee}
-     * @see Employee
      */
     Employee getEmployee(String username);
 
@@ -19,8 +18,6 @@ public interface EmployeeService {
      * get employees
      *
      * @return {@link List}
-     * @see List
-     * @see Employee
      */
     List<Employee> getEmployees();
 

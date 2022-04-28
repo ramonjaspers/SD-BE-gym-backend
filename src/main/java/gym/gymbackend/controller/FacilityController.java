@@ -60,9 +60,12 @@ public class FacilityController {
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-
-        service.createFacility(facilityDto);
-        return new ResponseEntity<>("Facility created", HttpStatus.CREATED);
+        try {
+            service.createFacility(facilityDto);
+            return new ResponseEntity<>("Facility created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 

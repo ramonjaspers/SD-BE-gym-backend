@@ -5,9 +5,12 @@ import gym.gymbackend.exceptions.BadRequestException;
 import gym.gymbackend.exceptions.InvalidPasswordException;
 import gym.gymbackend.exceptions.NotAuthorizedException;
 import gym.gymbackend.exceptions.PersonNotFoundException;
-import gym.gymbackend.model.Authority;
-import gym.gymbackend.model.Person;
+import gym.gymbackend.model.*;
+import gym.gymbackend.repository.EmployeeRepository;
 import gym.gymbackend.repository.PersonRepository;
+import gym.gymbackend.repository.SubscriptionRepository;
+import gym.gymbackend.repository.WorkoutRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,13 +24,21 @@ import java.util.Set;
 @Service
 public class PersonImplementation implements PersonService {
 
-    private final PersonRepository repos;
+    @Autowired
+    PersonRepository repos;
+
+    @Autowired
+    SubscriptionRepository subscriptionRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    WorkoutRepository workoutRepository;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
-    public PersonImplementation(PersonRepository repos, PasswordEncoder passwordEncoder) {
-        this.repos = repos;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     /**
      * @param username
@@ -74,32 +85,37 @@ public class PersonImplementation implements PersonService {
                 }
                 person.addAuthority(s);
             }
-            Person newPerson = this.repos.save(person);
+            Person newPerson = repos.save(person);
             return newPerson.getUsername();
         } catch (Exception ex) {
             throw new BadRequestException("Cannot create user.");
         }
     }
 
-    public Boolean deletePerson(String username) {
-        if (personExists(username)) {
-            try {
-                repos.deleteById(username);
-            } catch (Exception ex) {
-                throw new BadRequestException();
+    public void deletePerson(String username) {
+        Person person = getPerson(username);
+        Subscription subscription = person.getSubscription();
+        Employee employee = person.getEmployee();
+        List<Workout> workouts = person.getWorkouts();
+        try {
+            if (subscription != null) {
+                subscriptionRepository.delete(subscription);
             }
-            return true;
-        } else {
-            throw new PersonNotFoundException(username);
+            if (employee != null) {
+                employeeRepository.delete(employee);
+            }
+            if (workouts.size() != 0){
+                workoutRepository.deleteAll(workouts);
+            }
+            repos.delete(person);
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
         }
     }
 
     @Override
     public Boolean updatePerson(String username, Person newPerson) {
-        if (!personExists(username)) {
-            throw new PersonNotFoundException(username);
-        }
-        Person person = repos.findById(username).get();
+        Person person = getPerson(username);
         person.setPassword(passwordEncoder.encode(newPerson.getPassword()));
         person.setPicture(newPerson.getPicture());
         person.setAddress(newPerson.getAddress());
@@ -115,39 +131,27 @@ public class PersonImplementation implements PersonService {
     }
 
     public Set<Authority> getAuthorities(String username) {
-        if (!personExists(username)) {
-            throw new PersonNotFoundException(username);
-        }
-        Person person = repos.findById(username).get();
+        Person person = getPerson(username);
         return person.getAuthorities();
     }
 
     public void addAuthority(String username, String authority) {
-        if (!personExists(username)) {
-            throw new PersonNotFoundException(username);
-        }
-        Person person = this.repos.findById(username).get();
+        Person person = getPerson(username);
         person.addAuthority(new Authority(username, authority));
-        this.repos.save(person);
+        repos.save(person);
     }
 
     public void removeAuthority(String username, String authority) {
-        if (!personExists(username)) {
-            throw new PersonNotFoundException(username);
-        }
-        Person person = this.repos.findById(username).get();
+        Person person = getPerson(username);
         person.removeAuthority(authority);
-        this.repos.save(person);
+        repos.save(person);
     }
 
     @Override
     public Boolean deleteImage(String username) {
-        if (!personExists(username)) {
-            throw new PersonNotFoundException(username);
-        }
-        Person person = repos.findById(username).get();
+        Person person = getPerson(username);
         person.setPicture(null);
-        this.repos.save(person);
+        repos.save(person);
         return true;
     }
 

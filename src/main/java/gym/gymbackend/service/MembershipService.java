@@ -10,8 +10,6 @@ public interface MembershipService {
      * get memberships
      *
      * @return {@link List}
-     * @see List
-     * @see Membership
      */
     List<Membership> getMemberships();
 
@@ -20,7 +18,6 @@ public interface MembershipService {
      *
      * @param username username
      * @return {@link Membership}
-     * @see Membership
      */
     Membership getMembership(String username);
 
