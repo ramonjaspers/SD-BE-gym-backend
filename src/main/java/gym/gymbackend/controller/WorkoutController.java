@@ -3,6 +3,7 @@ package gym.gymbackend.controller;
 import gym.gymbackend.dto.WorkoutDto;
 import gym.gymbackend.model.Workout;
 import gym.gymbackend.service.WorkoutService;
+import gym.gymbackend.utils.BindingResultErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,12 +55,7 @@ public class WorkoutController {
     @PostMapping(value = "person/{username}")
     public ResponseEntity<Object> createWorkout(@PathVariable String username, @Valid @RequestBody WorkoutDto workoutDto, BindingResult br) {
         if (br.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (FieldError fe : br.getFieldErrors()) {
-                sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage());
-                sb.append("\n");
-            }
-            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
         }
         try {
             service.createWorkout(username, workoutDto);

@@ -21,7 +21,6 @@ import java.util.Optional;
  */
 @Service
 public class WorkoutImplementation implements WorkoutService {
-
     @Autowired
     private WorkoutRepository repos;
     @Autowired

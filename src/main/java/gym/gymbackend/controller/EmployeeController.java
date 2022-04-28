@@ -3,10 +3,10 @@ package gym.gymbackend.controller;
 import gym.gymbackend.dto.EmployeeDto;
 import gym.gymbackend.model.Employee;
 import gym.gymbackend.service.EmployeeService;
+import gym.gymbackend.utils.BindingResultErrorHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,12 +41,7 @@ public class EmployeeController {
     @PostMapping(value = "/{username}")
     public ResponseEntity<Object> createEmployee(@PathVariable String username, @Valid @RequestBody EmployeeDto employee, BindingResult br) {
         if (br.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (FieldError fe : br.getFieldErrors()) {
-                sb.append(fe.getDefaultMessage());
-                sb.append("\n");
-            }
-            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
         }
         try {
             service.createEmployee(username, employee);

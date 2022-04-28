@@ -3,10 +3,10 @@ package gym.gymbackend.controller;
 import gym.gymbackend.dto.MembershipDto;
 import gym.gymbackend.model.Membership;
 import gym.gymbackend.service.MembershipService;
+import gym.gymbackend.utils.BindingResultErrorHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,12 +43,7 @@ public class MembershipController {
     @PostMapping(value = "")
     public ResponseEntity<Object> createMembership(@Valid @RequestBody MembershipDto membership, BindingResult br) {
         if (br.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (FieldError fe : br.getFieldErrors()) {
-                sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage());
-                sb.append("\n");
-            }
-            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
         }
         try {
             service.createMembership(membership);

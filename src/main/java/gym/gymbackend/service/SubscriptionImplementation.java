@@ -64,7 +64,6 @@ public class SubscriptionImplementation implements SubscriptionService {
             subscription.setSubscriptionEndDate(subscriptionDto.getSubscriptionEndDate());
             subscription.setSubscriptionStartDate(subscriptionDto.getSubscriptionStartDate());
             subscription.setPerson(personOptional.get());
-
             repos.save(subscription);
         } catch (Exception ex) {
             throw new BadRequestException("Cannot create subscription. " + ex.getMessage());

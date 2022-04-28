@@ -3,6 +3,7 @@ package gym.gymbackend.controller;
 import gym.gymbackend.dto.FacilityDto;
 import gym.gymbackend.model.Facility;
 import gym.gymbackend.service.FacilityService;
+import gym.gymbackend.utils.BindingResultErrorHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -53,12 +54,7 @@ public class FacilityController {
     @PostMapping(value = "")
     public ResponseEntity<Object> createFacility(@Valid @RequestBody FacilityDto facilityDto, BindingResult br) {
         if (br.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (FieldError fe : br.getFieldErrors()) {
-                sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage());
-                sb.append("\n");
-            }
-            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
         }
         try {
             service.createFacility(facilityDto);

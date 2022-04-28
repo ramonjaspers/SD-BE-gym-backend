@@ -42,15 +42,15 @@ public class EmployeeImplementation implements EmployeeService {
 
     @Override
     public void createEmployee(String username, EmployeeDto employeeDto) {
+        if (username.isEmpty() || !personRepository.existsById(username)) {
+            throw new RecordNotFoundException("Invalid data received");
+        }
+        Employee employee = new Employee();
+        Optional<Person> personOptional = personRepository.findById(username);
+        if (personOptional.isEmpty()) {
+            throw new PersonNotFoundException(username);
+        }
         try {
-            if (username.isEmpty() || !personRepository.existsById(username)) {
-                throw new RecordNotFoundException("Invalid data received");
-            }
-            Employee employee = new Employee();
-            Optional<Person> personOptional = personRepository.findById(username);
-            if (personOptional.isEmpty()) {
-                throw new PersonNotFoundException(username);
-            }
             employee.setDateOfEmployment(employeeDto.getDateOfEmployment());
             employee.setDateTillEmployment(employeeDto.getDateTillEmployment());
             employee.setFunc(employeeDto.getFunc());

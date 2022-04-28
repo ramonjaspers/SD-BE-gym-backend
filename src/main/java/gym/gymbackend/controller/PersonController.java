@@ -4,6 +4,7 @@ import gym.gymbackend.dto.PersonDto;
 import gym.gymbackend.exceptions.BadRequestException;
 import gym.gymbackend.model.Person;
 import gym.gymbackend.service.PersonService;
+import gym.gymbackend.utils.BindingResultErrorHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,12 +47,7 @@ public class PersonController {
     @PostMapping(value = "")
     public ResponseEntity<Object> createPerson(@Valid @RequestBody PersonDto personDto, BindingResult br) {
         if (br.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (FieldError fe : br.getFieldErrors()) {
-                sb.append(fe.getDefaultMessage());
-                sb.append("\n");
-            }
-            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
         }
         try {
             service.createPerson(personDto);
@@ -116,7 +112,10 @@ public class PersonController {
     }
 
     @PutMapping(value = "/{username}")
-    public ResponseEntity<Object> updatePerson(@PathVariable String username, @RequestBody Person person) {
+    public ResponseEntity<Object> updatePerson(@PathVariable String username, @Valid @RequestBody Person person, BindingResult br) {
+        if (br.hasErrors()) {
+            return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
+        }
         service.updatePerson(username, person);
         return ResponseEntity.noContent().build();
     }

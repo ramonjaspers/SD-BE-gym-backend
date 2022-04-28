@@ -43,7 +43,7 @@ public class Person {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    private Set<Authority> authorities = new HashSet<>();
+    private Set<Authority> authorities;
 
     public String getUsername() {
         return username;

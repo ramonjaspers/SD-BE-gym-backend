@@ -93,18 +93,18 @@ public class PersonImplementation implements PersonService {
     }
 
     public void deletePerson(String username) {
-        Person person = getPerson(username);
-        Subscription subscription = person.getSubscription();
-        Employee employee = person.getEmployee();
-        List<Workout> workouts = person.getWorkouts();
         try {
+            Person person = getPerson(username);
+            Subscription subscription = person.getSubscription();
+            Employee employee = person.getEmployee();
+            List<Workout> workouts = person.getWorkouts();
             if (subscription != null) {
                 subscriptionRepository.delete(subscription);
             }
             if (employee != null) {
                 employeeRepository.delete(employee);
             }
-            if (workouts.size() != 0){
+            if (workouts.size() != 0) {
                 workoutRepository.deleteAll(workouts);
             }
             repos.delete(person);
@@ -115,19 +115,23 @@ public class PersonImplementation implements PersonService {
 
     @Override
     public Boolean updatePerson(String username, Person newPerson) {
-        Person person = getPerson(username);
-        person.setPassword(passwordEncoder.encode(newPerson.getPassword()));
-        person.setPicture(newPerson.getPicture());
-        person.setAddress(newPerson.getAddress());
-        person.setBankNumber(newPerson.getBankNumber());
-        person.setEmail(newPerson.getEmail());
-        person.setEnabled(newPerson.isEnabled());
-        person.setSex(newPerson.getSex());
-        person.setName(newPerson.getName());
-        person.setDateOfBirth(newPerson.getDateOfBirth());
-        person.setCredit(newPerson.getCredit());
-        repos.save(person);
-        return true;
+        try {
+            Person person = getPerson(username);
+            person.setPassword(passwordEncoder.encode(newPerson.getPassword()));
+            person.setPicture(newPerson.getPicture());
+            person.setAddress(newPerson.getAddress());
+            person.setBankNumber(newPerson.getBankNumber());
+            person.setEmail(newPerson.getEmail());
+            person.setEnabled(newPerson.isEnabled());
+            person.setSex(newPerson.getSex());
+            person.setName(newPerson.getName());
+            person.setDateOfBirth(newPerson.getDateOfBirth());
+            person.setCredit(newPerson.getCredit());
+            repos.save(person);
+            return true;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
     public Set<Authority> getAuthorities(String username) {
@@ -162,6 +166,7 @@ public class PersonImplementation implements PersonService {
 
     public void setPassword(String username, String password) {
         if (username.equals(getCurrentUserName())) {
+            //TODO: implement password strength check
             if (password.length() > 2) {
                 if (personExists(username)) {
                     Person person = repos.findById(username).get();

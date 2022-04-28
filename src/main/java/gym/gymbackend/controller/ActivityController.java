@@ -3,11 +3,11 @@ package gym.gymbackend.controller;
 import gym.gymbackend.dto.ActivityDto;
 import gym.gymbackend.model.Activity;
 import gym.gymbackend.service.ActivityService;
+import gym.gymbackend.utils.BindingResultErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,12 +45,7 @@ public class ActivityController {
     @PostMapping(value = "")
     public ResponseEntity<Object> createActivity(@Valid @RequestBody ActivityDto activityDto, BindingResult br) {
         if (br.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            for (FieldError fe : br.getFieldErrors()) {
-                sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage());
-                sb.append("\n");
-            }
-            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
         }
         try {
             service.createActivity(activityDto);
@@ -73,7 +68,7 @@ public class ActivityController {
     @PutMapping(value = "/{activityName}")
     public ResponseEntity<Object> updateActivity(@PathVariable String activityName, @Valid @RequestBody ActivityDto activityDto) {
         service.updateActivity(activityName, activityDto);
-        return new ResponseEntity<>( " fields updated", HttpStatus.OK);
+        return new ResponseEntity<>(" fields updated", HttpStatus.OK);
     }
 
 }
