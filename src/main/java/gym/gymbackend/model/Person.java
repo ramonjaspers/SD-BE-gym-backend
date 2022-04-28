@@ -160,4 +160,20 @@ public class Person {
     public void removeAuthority(String authorityString) {
         this.authorities.removeIf(authority -> authority.getAuthority().equalsIgnoreCase(authorityString));
     }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public List<Workout> getWorkouts() {
+        return workouts;
+    }
+
+    public void setWorkouts(List<Workout> workouts) {
+        this.workouts = workouts;
+    }
 }

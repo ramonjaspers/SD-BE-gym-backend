@@ -1,14 +1,8 @@
 package gym.gymbackend.controller;
 
-import gym.gymbackend.dto.ExerciseMuscleDto;
-import gym.gymbackend.dto.MembershipDto;
 import gym.gymbackend.dto.WorkoutDto;
-import gym.gymbackend.enums.Muscle;
-import gym.gymbackend.model.ExerciseMuscle;
 import gym.gymbackend.model.Workout;
-import gym.gymbackend.service.ExerciseMuscleService;
 import gym.gymbackend.service.WorkoutService;
-import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +44,7 @@ public class WorkoutController {
     @GetMapping(value = "/person/{username}")
     public ResponseEntity<Object> getWorkoutsByPerson(@PathVariable String username) {
         try {
-            List<Workout> workout = service.getWorkoutsByPerson(username);
+            List<Workout> workout = service.getWorkoutsByUsername(username);
             return new ResponseEntity<>(workout, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("No workouts found", HttpStatus.NOT_FOUND);
@@ -69,8 +63,8 @@ public class WorkoutController {
         }
         try {
             service.createWorkout(username, workoutDto);
-            return new ResponseEntity<>("Membership created", HttpStatus.CREATED);
-        }catch (Exception e) {
+            return new ResponseEntity<>("Workout created", HttpStatus.CREATED);
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -96,11 +90,31 @@ public class WorkoutController {
         }
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> updateWorkout(@PathVariable Long id, @Valid @RequestBody WorkoutDto workoutDto) {
+    @PatchMapping(value = "/{id}/newName/{newName}")
+    public ResponseEntity<Object> updateWorkoutName(@PathVariable Long id, @PathVariable String newName) {
         try {
-            service.updateWorkout(id, workoutDto);
-            return new ResponseEntity<>("Workout updated", HttpStatus.OK);
+            service.updateWorkoutName(id, newName);
+            return new ResponseEntity<>("Workout name updated to " + newName, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping(value = "/{id}/activity/{activity}")
+    public ResponseEntity<Object> addActivityToWorkout(@PathVariable Long id, @PathVariable String activity) {
+        try {
+            service.addActivityToWorkout(id, activity);
+            return new ResponseEntity<>(activity + "added to the workout", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping(value = "/{id}/activity/{activity}")
+    public ResponseEntity<Object> removeActivityFromWorkout(@PathVariable Long id, @PathVariable String activity) {
+        try {
+            service.removeActivityFromWorkout(id, activity);
+            return new ResponseEntity<>(activity + "removed from workout", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

@@ -59,12 +59,11 @@ public class WorkoutImplementation implements WorkoutService {
      * @return {@link List}
      */
     @Override
-    public List<Workout> getWorkoutsByPerson(String username) {
+    public List<Workout> getWorkoutsByUsername(String username) {
         Optional<Person> person = personRepository.findById(username);
         if (person.isEmpty()) {
             throw new PersonNotFoundException(username);
         }
-        //TODO fix this and DELETES + PATCH, daarna eenmalig nog de requests doorlopen!
         return repos.findWorkoutsByPerson(person.get());
     }
 
@@ -90,7 +89,7 @@ public class WorkoutImplementation implements WorkoutService {
     public void createWorkout(String username, WorkoutDto workoutDto) {
         Optional<Person> personOptional = personRepository.findById(username);
         // check for valid person
-        if (personOptional.isEmpty()){
+        if (personOptional.isEmpty()) {
             throw new PersonNotFoundException(username);
         }
 
@@ -137,14 +136,89 @@ public class WorkoutImplementation implements WorkoutService {
     }
 
     /**
-     * update Workout by id
+     * update Workout name by id
      *
-     * @param id         id
-     * @param workoutDto workoutDto
+     * @param id      id from workout
+     * @param newName new workout name
      */
     @Override
-    public void updateWorkout(Long id, WorkoutDto workoutDto) {
+    public void updateWorkoutName(Long id, String newName) {
+        Workout workout = getWorkout(id);
+        workout.setName(newName);
+        repos.save(workout);
+    }
 
+    /**
+     * add activity to workout
+     *
+     * @param id           id
+     * @param activityName Name from activity
+     */
+    @Override
+    public void addActivityToWorkout(Long id, String activityName) {
+        Workout workout = getWorkout(id);
+
+        Optional<Activity> activityOptional = activityRepository.findById(activityName);
+        // check if activity exists
+        if (activityOptional.isEmpty()) {
+            throw new BadRequestException("Activity " + activityName + " not found");
+        }
+
+        Activity activity = activityOptional.get();
+        Integer membershipAccessFromPerson = workout.getPerson().getSubscription().getMembership().getWeight();
+        Integer requiredMembershipAccessForActivity = activity.getFacility().getMinimumMembership().getWeight();
+        //Check if person has the access to do the activity
+        if (membershipAccessFromPerson < requiredMembershipAccessForActivity) {
+            throw new BadRequestException("Membership: " + activity.getFacility().getMinimumMembership().getName() + " is required for " + activityName);
+        }
+
+        PlannedActivity plannedActivity = new PlannedActivity();
+        plannedActivity.setWorkout(workout);
+        plannedActivity.setActivity(activity);
+        plannedActivityRepository.save(plannedActivity);
+    }
+
+
+    /**
+     * update Workout by id
+     *
+     * @param id           id
+     * @param activityName Name from activity
+     */
+    @Override
+    public void removeActivityFromWorkout(Long id, String activityName) {
+        Workout workout = getWorkout(id);
+        PlannedActivityKey plannedActivityKey = new PlannedActivityKey();
+        plannedActivityKey.setActivity(activityName);
+        plannedActivityKey.setWorkout(id);
+        Optional<PlannedActivity> plannedActivityOptional = plannedActivityRepository.findById(plannedActivityKey);
+        if (plannedActivityOptional.isEmpty()) {
+            throw new BadRequestException("Planned " + activityName + " not found");
+        }
+
+        PlannedActivity plannedActivity = plannedActivityOptional.get();
+        Integer membershipAccessFromPerson = workout.getPerson().getSubscription().getMembership().getWeight();
+        Membership minimumMembership = plannedActivity.getActivity().getFacility().getMinimumMembership();
+        //Check if person has the access to do the activity
+        if (membershipAccessFromPerson < minimumMembership.getWeight()) {
+            throw new BadRequestException("Membership: " + minimumMembership.getName() + " is required for " + activityName);
+        }
+
+        plannedActivityRepository.delete(plannedActivity);
+    }
+
+
+    /**
+     * delete Workout by id
+     *
+     * @param id id
+     */
+    @Override
+    public void deleteWorkout(Long id) {
+        Workout workout = getWorkout(id);
+        List<PlannedActivity> plannedActivities = plannedActivityRepository.getPlannedActivitiesByWorkout(workout);
+        plannedActivityRepository.deleteAll(plannedActivities);
+        repos.delete(workout);
     }
 
     /**
@@ -154,16 +228,9 @@ public class WorkoutImplementation implements WorkoutService {
      */
     @Override
     public void deleteWorkoutByUsername(String username) {
-
-    }
-
-    /**
-     * delete Workout by id
-     *
-     * @param id id
-     */
-    @Override
-    public void deleteWorkout(Long id) {
-
+        List<Workout> workouts = getWorkoutsByUsername(username);
+        for (Workout workout : workouts) {
+            deleteWorkout(workout.getId());
+        }
     }
 }

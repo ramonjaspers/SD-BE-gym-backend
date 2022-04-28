@@ -12,4 +12,20 @@ public class PlannedActivityKey implements Serializable {
     private Long workout;
     @NotBlank
     private String activity;
+
+    public Long getWorkout() {
+        return workout;
+    }
+
+    public void setWorkout(Long workout) {
+        this.workout = workout;
+    }
+
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
+    }
 }

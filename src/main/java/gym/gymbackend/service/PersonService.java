@@ -35,9 +35,8 @@ public interface PersonService {
      * delete person by username
      *
      * @param username username
-     * @return {@link Boolean}
      */
-    Boolean deletePerson(String username);
+    void deletePerson(String username);
 
     /**
      * update person by username
