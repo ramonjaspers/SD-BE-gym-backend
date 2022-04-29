@@ -30,4 +30,15 @@ public class Activity {
     public void setFacility(Facility facility) {
         this.facility = facility;
     }
+
+    public String getMuscles() {
+        StringBuilder sb = new StringBuilder();
+        for (ExerciseMuscle em: muscles) {
+            if (sb.length() > 0 ){
+               sb.append(", ");
+            }
+            sb.append(em.getMuscle());
+        }
+        return sb.toString();
+    }
 }

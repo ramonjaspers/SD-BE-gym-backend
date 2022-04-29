@@ -82,7 +82,6 @@ public class ExerciseMuscleController {
             return new ResponseEntity<>("Exercise muscle created", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-
         }
     }
 
