@@ -17,8 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.sql.DataSource;
 
-import static org.springframework.http.HttpMethod.PATCH;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -64,12 +63,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/persons/**").hasAnyRole("ADMIN", "EMPLOYEE")
-                .antMatchers("/employees/**").hasAnyRole("ADMIN")
+                .antMatchers(GET,"/activities/**").permitAll()
+                .antMatchers(GET, "/memberships/**").permitAll()
                 .antMatchers(PATCH, "/persons/{^[\\w]$}/password").authenticated()
-                .antMatchers("/persons/**").hasAnyRole("PERSON", "EMPLOYEE", "ADMIN")
+                .antMatchers(GET, "/workouts/{^[\\w]$}").authenticated()
+                .antMatchers(GET, "/subscriptions/{^[\\w]$}").permitAll()
                 .antMatchers(POST, "/authenticate").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/persons/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .antMatchers("**/authorities/**").hasAnyRole("ADMIN")
+                .antMatchers("/memberships/**").hasAnyRole("ADMIN")
+                .antMatchers("/employees/**").hasAnyRole("ADMIN")
+                .antMatchers("/subscriptions/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .antMatchers("/facilities/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .antMatchers("/exerciseMuscles/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .antMatchers("/activities/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .antMatchers("/workouts/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .anyRequest().denyAll()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()

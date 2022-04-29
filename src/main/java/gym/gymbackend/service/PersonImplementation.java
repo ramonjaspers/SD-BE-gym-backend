@@ -48,6 +48,11 @@ public class PersonImplementation implements PersonService {
         return repos.findById(username).isPresent();
     }
 
+    private String getCurrentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return ((UserDetails) authentication.getPrincipal()).getUsername();
+    }
+
     @Override
     public List<Person> getPersons() {
         return repos.findAll();
@@ -159,10 +164,6 @@ public class PersonImplementation implements PersonService {
         return true;
     }
 
-    private String getCurrentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ((UserDetails) authentication.getPrincipal()).getUsername();
-    }
 
     public void setPassword(String username, String password) {
         if (username.equals(getCurrentUserName())) {
