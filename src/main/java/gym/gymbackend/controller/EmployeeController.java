@@ -4,6 +4,7 @@ import gym.gymbackend.dto.EmployeeDto;
 import gym.gymbackend.model.Employee;
 import gym.gymbackend.service.EmployeeService;
 import gym.gymbackend.utils.BindingResultErrorHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,7 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService service;
 
+    @Autowired
     public EmployeeController(EmployeeService service) {
         this.service = service;
     }
@@ -50,7 +52,6 @@ public class EmployeeController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @DeleteMapping(value = "/{username}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable String username) {

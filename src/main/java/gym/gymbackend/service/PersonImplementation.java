@@ -122,7 +122,6 @@ public class PersonImplementation implements PersonService {
     public Boolean updatePerson(String username, Person newPerson) {
         try {
             Person person = getPerson(username);
-            person.setPassword(passwordEncoder.encode(newPerson.getPassword()));
             person.setPicture(newPerson.getPicture());
             person.setAddress(newPerson.getAddress());
             person.setBankNumber(newPerson.getBankNumber());

@@ -4,10 +4,10 @@ import gym.gymbackend.dto.SubscriptionDto;
 import gym.gymbackend.model.Subscription;
 import gym.gymbackend.service.SubscriptionService;
 import gym.gymbackend.utils.BindingResultErrorHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,9 +17,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/subscriptions")
 public class SubscriptionController {
-
     private final SubscriptionService service;
 
+    @Autowired
     public SubscriptionController(SubscriptionService service) {
         this.service = service;
     }
@@ -40,7 +40,6 @@ public class SubscriptionController {
         }
     }
 
-
     @PostMapping(value = "/{username}")
     public ResponseEntity<Object> createSubscription(@PathVariable String username, @Valid @RequestBody SubscriptionDto subscriptionDto, BindingResult br) {
         if (br.hasErrors()) {
@@ -53,7 +52,6 @@ public class SubscriptionController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @DeleteMapping(value = "/{username}")
     public ResponseEntity<Object> deleteSubscription(@PathVariable String username) {

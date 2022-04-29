@@ -5,6 +5,7 @@ import gym.gymbackend.exceptions.BadRequestException;
 import gym.gymbackend.model.Person;
 import gym.gymbackend.service.PersonService;
 import gym.gymbackend.utils.BindingResultErrorHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class PersonController {
 
     private final PersonService service;
 
+    @Autowired
     public PersonController(PersonService service) {
         this.service = service;
     }
@@ -117,7 +119,7 @@ public class PersonController {
             return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
         }
         service.updatePerson(username, person);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>("Person updated.", HttpStatus.OK);
     }
 
     @GetMapping(value = "/{username}/authorities")
@@ -130,7 +132,7 @@ public class PersonController {
         try {
             String authorityName = (String) fields.get("authority");
             service.addAuthority(username, authorityName);
-            return ResponseEntity.noContent().build();
+            return new ResponseEntity<>("Authorities added to " + username, HttpStatus.OK);
         } catch (Exception e) {
             throw new BadRequestException("Cannot create authority. " + e.getMessage());
         }

@@ -4,6 +4,7 @@ import gym.gymbackend.dto.MembershipDto;
 import gym.gymbackend.model.Membership;
 import gym.gymbackend.service.MembershipService;
 import gym.gymbackend.utils.BindingResultErrorHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,9 +17,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/memberships")
 public class MembershipController {
-
     private final MembershipService service;
 
+    @Autowired
     public MembershipController(MembershipService service) {
         this.service = service;
     }
@@ -39,7 +40,6 @@ public class MembershipController {
         }
     }
 
-
     @PostMapping(value = "")
     public ResponseEntity<Object> createMembership(@Valid @RequestBody MembershipDto membership, BindingResult br) {
         if (br.hasErrors()) {
@@ -52,7 +52,6 @@ public class MembershipController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @DeleteMapping(value = "/{name}")
     public ResponseEntity<Object> deleteMembership(@PathVariable String name) {

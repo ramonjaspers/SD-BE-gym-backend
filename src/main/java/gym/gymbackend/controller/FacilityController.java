@@ -4,6 +4,7 @@ import gym.gymbackend.dto.FacilityDto;
 import gym.gymbackend.model.Facility;
 import gym.gymbackend.service.FacilityService;
 import gym.gymbackend.utils.BindingResultErrorHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ public class FacilityController {
 
     private final FacilityService service;
 
+    @Autowired
     public FacilityController(FacilityService service) {
         this.service = service;
     }
