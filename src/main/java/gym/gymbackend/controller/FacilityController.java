@@ -18,7 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/facilities")
 public class FacilityController {
-
     private final FacilityService service;
 
     @Autowired
@@ -52,7 +51,6 @@ public class FacilityController {
         }
     }
 
-
     @PostMapping(value = "")
     public ResponseEntity<Object> createFacility(@Valid @RequestBody FacilityDto facilityDto, BindingResult br) {
         if (br.hasErrors()) {
@@ -65,7 +63,6 @@ public class FacilityController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteFacility(@PathVariable Long id) {

@@ -68,5 +68,4 @@ public class MembershipController {
         service.updateMembership(name, membershipDto);
         return new ResponseEntity<>(name + " membership fields updated", HttpStatus.OK);
     }
-
 }

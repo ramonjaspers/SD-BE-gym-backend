@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/exerciseMuscles")
 public class ExerciseMuscleController {
-
     ExerciseMuscleService service;
 
     @Autowired
@@ -39,10 +38,9 @@ public class ExerciseMuscleController {
             ExerciseMuscle exerciseMuscle = service.getExerciseMuscle(id);
             return new ResponseEntity<>(exerciseMuscle, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("No muscle found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No muscles found", HttpStatus.NOT_FOUND);
         }
     }
-
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteExerciseMuscle(@PathVariable Long id) {
@@ -97,6 +95,4 @@ public class ExerciseMuscleController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
-
 }

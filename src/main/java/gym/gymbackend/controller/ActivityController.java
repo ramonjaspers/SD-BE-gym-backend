@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/activities")
 public class ActivityController {
-
     ActivityService service;
 
     @Autowired
@@ -40,7 +39,6 @@ public class ActivityController {
             return new ResponseEntity<>("No activity found", HttpStatus.NOT_FOUND);
         }
     }
-
 
     @PostMapping(value = "")
     public ResponseEntity<Object> createActivity(@Valid @RequestBody ActivityDto activityDto, BindingResult br) {
@@ -70,5 +68,4 @@ public class ActivityController {
         service.updateActivity(activityName, activityDto);
         return new ResponseEntity<>(" fields updated", HttpStatus.OK);
     }
-
 }
