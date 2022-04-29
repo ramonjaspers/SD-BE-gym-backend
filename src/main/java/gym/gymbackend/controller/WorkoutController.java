@@ -65,7 +65,6 @@ public class WorkoutController {
         }
     }
 
-
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteWorkout(@PathVariable Long id) {
         try {
