@@ -59,11 +59,11 @@ public class MembershipImplementation implements MembershipService {
     }
 
     @Override
-    public void updateMembership(String name, MembershipDto membershipDto) {
-        if (!membershipExists(name)) {
+    public void updateMembership(MembershipDto membershipDto) {
+        Membership membership = getMembership(membershipDto.getName());
+        if (!membershipExists(membershipDto.getName())) {
             throw new RecordNotFoundException("Membership does not exist");
         }
-        Membership membership = repos.findById(name).get();
         membership.setPrice(membershipDto.getPrice());
         membership.setWeight(membershipDto.getWeight());
         repos.save(membership);

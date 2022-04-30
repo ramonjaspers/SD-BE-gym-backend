@@ -192,7 +192,7 @@ public class WorkoutImplementation implements WorkoutService {
         plannedActivityKey.setWorkout(id);
         Optional<PlannedActivity> plannedActivityOptional = plannedActivityRepository.findById(plannedActivityKey);
         if (plannedActivityOptional.isEmpty()) {
-            throw new BadRequestException("Planned " + activityName + " not found");
+            throw new BadRequestException(activityName + " not found in workout");
         }
 
         PlannedActivity plannedActivity = plannedActivityOptional.get();

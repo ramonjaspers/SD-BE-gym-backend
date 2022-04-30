@@ -64,19 +64,4 @@ public class ActivityImplementation implements ActivityService {
             throw new RecordNotFoundException("Activity does not exist");
         }
     }
-
-    @Override
-    public void updateActivity(String name, ActivityDto activityDto) {
-        if (!activityExists(name)) {
-            throw new RecordNotFoundException("Facility does not exist");
-        }
-        Optional<Facility> facility = facilityRepository.findById(activityDto.getFacilityId());
-        if (facility.isEmpty()) {
-            throw new BadRequestException("Given facility does not exist");
-        }
-        Activity activity = new Activity();
-        activity.setName(activityDto.getName());
-        activity.setFacility(facility.get());
-        repos.save(activity);
-    }
 }

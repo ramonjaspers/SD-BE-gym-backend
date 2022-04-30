@@ -31,10 +31,9 @@ public interface MembershipService {
     /**
      * update membership by username
      *
-     * @param username
      * @param membershipDto membershipDto
      */
-    void updateMembership(String username, MembershipDto membershipDto);
+    void updateMembership(MembershipDto membershipDto);
 
     /**
      * delete membership by username

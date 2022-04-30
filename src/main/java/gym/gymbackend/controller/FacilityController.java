@@ -68,7 +68,7 @@ public class FacilityController {
     public ResponseEntity<Object> deleteFacility(@PathVariable Long id) {
         try {
             service.deleteFacility(id);
-            return new ResponseEntity<>(id + " removed", HttpStatus.OK);
+            return new ResponseEntity<>("Facility deleted", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed removing facility, check if there are activities connected to this facility and remove these first", HttpStatus.BAD_REQUEST);
         }
@@ -77,6 +77,6 @@ public class FacilityController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateFacility(@PathVariable Long id, @Valid @RequestBody FacilityDto facilityDto) {
         service.updateFacility(id, facilityDto);
-        return new ResponseEntity<>(id + " facility fields updated", HttpStatus.OK);
+        return new ResponseEntity<>("Facility fields updated", HttpStatus.OK);
     }
 }

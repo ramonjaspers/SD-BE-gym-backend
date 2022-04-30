@@ -34,13 +34,4 @@ public interface ActivityService {
      * @param name name
      */
     void deleteActivity(String name);
-
-
-    /**
-     * update activity by name
-     *
-     * @param name        name
-     * @param activityDto activityDto
-     */
-    void updateActivity(String name, ActivityDto activityDto);
 }

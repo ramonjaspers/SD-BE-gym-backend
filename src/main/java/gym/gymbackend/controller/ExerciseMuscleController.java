@@ -46,7 +46,7 @@ public class ExerciseMuscleController {
     public ResponseEntity<Object> deleteExerciseMuscle(@PathVariable Long id) {
         try {
             service.deleteExerciseMuscle(id);
-            return new ResponseEntity<>(id + " removed", HttpStatus.OK);
+            return new ResponseEntity<>("Exercise muscle removed", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

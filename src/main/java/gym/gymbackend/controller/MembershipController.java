@@ -59,13 +59,20 @@ public class MembershipController {
             service.deleteMembership(name);
             return new ResponseEntity<>(name + " removed", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed removing membership, check if there are subscriptions connected to this membership and remove these first", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed removing membership: Membership does not exist or subscriptions are connected", HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping(value = "/{name}")
-    public ResponseEntity<Object> updateMembership(@PathVariable String name, @Valid @RequestBody MembershipDto membershipDto) {
-        service.updateMembership(name, membershipDto);
-        return new ResponseEntity<>(name + " membership fields updated", HttpStatus.OK);
+    @PutMapping(value = "")
+    public ResponseEntity<Object> updateMembership(@Valid @RequestBody MembershipDto membershipDto, BindingResult br) {
+        if (br.hasErrors()) {
+            return new ResponseEntity<>(BindingResultErrorHandler.bindingErrorsToString(br), HttpStatus.BAD_REQUEST);
+        }
+        try {
+            service.updateMembership(membershipDto);
+            return new ResponseEntity<>(membershipDto.getName() + " updated", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

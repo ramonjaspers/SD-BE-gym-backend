@@ -47,7 +47,7 @@ public class SubscriptionController {
         }
         try {
             service.createSubscription(username, subscriptionDto);
-            return new ResponseEntity<>("Membership created", HttpStatus.CREATED);
+            return new ResponseEntity<>("New subscription created", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

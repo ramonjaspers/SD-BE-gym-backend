@@ -3,10 +3,7 @@ package gym.gymbackend.model;
 import gym.gymbackend.enums.Sex;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Person {
@@ -46,7 +43,7 @@ public class Person {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
 
     public String getUsername() {
         return username;

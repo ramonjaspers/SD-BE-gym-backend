@@ -19,7 +19,7 @@ public class BindingResultErrorHandler {
     public static String bindingErrorsToString(BindingResult br) {
         StringBuilder sb = new StringBuilder();
         for (FieldError fe : br.getFieldErrors()) {
-            sb.append(fe.getDefaultMessage());
+            sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage());
             sb.append("\n");
         }
         return sb.toString();

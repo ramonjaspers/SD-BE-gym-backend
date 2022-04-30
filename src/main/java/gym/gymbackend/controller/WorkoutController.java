@@ -99,7 +99,7 @@ public class WorkoutController {
     public ResponseEntity<Object> addActivityToWorkout(@PathVariable Long id, @PathVariable String activity) {
         try {
             service.addActivityToWorkout(id, activity);
-            return new ResponseEntity<>(activity + "added to the workout", HttpStatus.OK);
+            return new ResponseEntity<>(activity + " added to the workout", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -109,7 +109,7 @@ public class WorkoutController {
     public ResponseEntity<Object> removeActivityFromWorkout(@PathVariable Long id, @PathVariable String activity) {
         try {
             service.removeActivityFromWorkout(id, activity);
-            return new ResponseEntity<>(activity + "removed from workout", HttpStatus.OK);
+            return new ResponseEntity<>(activity + " removed from workout", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
