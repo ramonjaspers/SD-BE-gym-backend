@@ -93,7 +93,7 @@ public class PersonImplementation implements PersonService {
             Person newPerson = repos.save(person);
             return newPerson.getUsername();
         } catch (Exception ex) {
-            throw new BadRequestException("Cannot create user.");
+            throw new BadRequestException("Cannot create person.");
         }
     }
 
