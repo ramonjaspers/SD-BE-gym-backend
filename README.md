@@ -1,5 +1,4 @@
 # SD-BE-gym-backend
----
 ## Activities
 GET http://localhost:8080/activities/
 
