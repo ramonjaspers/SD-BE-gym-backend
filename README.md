@@ -71,24 +71,41 @@ DELETE http://localhost:8080/memberships/{{name}}
 
 ## Persons
 GET http://localhost:8080/persons/
+
 POST http://localhost:8080/persons/
+
 GET http://localhost:8080/persons/{{username}}
+
 PUT http://localhost:8080/persons/{{username}}
+
 DELETE http://localhost:8080/persons/{{username}}
+
 GET http://localhost:8080/persons/{{username}}/authorities
+
 POST http://localhost:8080/persons/{{username}}/authorities
+
 DELETE http://localhost:8080/persons/{{username}}/authorities/{{authority}}
+
 GET http://localhost:8080/persons/{{username}}/image
+
 POST http://localhost:8080/persons/{{username}}/image
+
 DELETE http://localhost:8080/persons/{{username}}/image
+
 PATCH http://localhost:8080/persons/{{username}}/password
+
 
 ## Subscriptions
 GET http://localhost:8080/subscriptions/
+
 GET http://localhost:8080/subscriptions/{{username}}
+
 PUT http://localhost:8080/subscriptions/{{username}}
+
 POST http://localhost:8080/subscriptions/{{username}}
+
 DELETE http://localhost:8080/subscriptions/{{username}}
+
 
 ## Workouts
 POST http://localhost:8080/workouts/person/{{username}}
